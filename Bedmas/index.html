@@ -8563,9 +8563,21 @@ var author$project$Main$update = F2(
 		if (msg.$ === 'Tick') {
 			var t = msg.a;
 			var _n1 = model.state;
-			return _Utils_update(
-				model,
-				{time: t});
+			if (_n1.$ === 'Waiting') {
+				return _Utils_update(
+					model,
+					{time: t});
+			} else {
+				var highlight = _n1.a;
+				return _Utils_update(
+					model,
+					{
+						expr: A2(
+							author$project$Main$Subt,
+							author$project$Main$Const(20),
+							author$project$Main$Const(16))
+					});
+			}
 		} else {
 			var clickable = msg.a;
 			return _Utils_update(
@@ -8577,6 +8589,8 @@ var MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3(MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
+var MacCASOutreach$graphicsvg$GraphicSVG$green = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 115, 210, 22, 1);
+var MacCASOutreach$graphicsvg$GraphicSVG$red = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 204, 0, 0, 1);
 var MacCASOutreach$graphicsvg$GraphicSVG$Face = F8(
 	function (a, b, c, d, e, f, g, h) {
 		return {$: 'Face', a: a, b: b, c: c, d: d, e: e, f: f, g: g, h: h};
@@ -8613,6 +8627,11 @@ var MacCASOutreach$graphicsvg$GraphicSVG$text = function (str) {
 		MacCASOutreach$graphicsvg$GraphicSVG$Text,
 		A8(MacCASOutreach$graphicsvg$GraphicSVG$Face, 12, false, false, false, false, false, MacCASOutreach$graphicsvg$GraphicSVG$Serif, MacCASOutreach$graphicsvg$GraphicSVG$AlignLeft),
 		str);
+};
+var author$project$Main$CExp = {$: 'CExp'};
+var author$project$Main$CSubt = {$: 'CSubt'};
+var author$project$Main$CSubtRight = function (a) {
+	return {$: 'CSubtRight', a: a};
 };
 var MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
 var MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
@@ -8674,7 +8693,6 @@ var author$project$Main$CDivLeft = function (a) {
 var author$project$Main$CDivRight = function (a) {
 	return {$: 'CDivRight', a: a};
 };
-var author$project$Main$CExp = {$: 'CExp'};
 var author$project$Main$CExpLeft = function (a) {
 	return {$: 'CExpLeft', a: a};
 };
@@ -8695,26 +8713,13 @@ var author$project$Main$CPlusLeft = function (a) {
 var author$project$Main$CPlusRight = function (a) {
 	return {$: 'CPlusRight', a: a};
 };
-var author$project$Main$CSubt = {$: 'CSubt'};
 var author$project$Main$CSubtLeft = function (a) {
 	return {$: 'CSubtLeft', a: a};
-};
-var author$project$Main$CSubtRight = function (a) {
-	return {$: 'CSubtRight', a: a};
 };
 var author$project$Main$CVar = {$: 'CVar'};
 var author$project$Main$Tap = function (a) {
 	return {$: 'Tap', a: a};
 };
-var MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
-	function (r, g, b) {
-		return A4(
-			MacCASOutreach$graphicsvg$GraphicSVG$RGBA,
-			MacCASOutreach$graphicsvg$GraphicSVG$ssc(r),
-			MacCASOutreach$graphicsvg$GraphicSVG$ssc(g),
-			MacCASOutreach$graphicsvg$GraphicSVG$ssc(b),
-			1);
-	});
 var MacCASOutreach$graphicsvg$GraphicSVG$RoundRect = F3(
 	function (a, b, c) {
 		return {$: 'RoundRect', a: a, b: b, c: c};
@@ -8723,15 +8728,16 @@ var MacCASOutreach$graphicsvg$GraphicSVG$roundedRect = F3(
 	function (w, h, r) {
 		return A3(MacCASOutreach$graphicsvg$GraphicSVG$RoundRect, w, h, r);
 	});
-var author$project$Main$backlit = function (width) {
-	return A2(
-		MacCASOutreach$graphicsvg$GraphicSVG$move,
-		_Utils_Tuple2(0, 1),
-		A2(
-			MacCASOutreach$graphicsvg$GraphicSVG$filled,
-			A3(MacCASOutreach$graphicsvg$GraphicSVG$rgb, 0, 255, 0),
-			A3(MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, width, 6, 4)));
-};
+var author$project$Main$backlit = F2(
+	function (width, colour) {
+		return A2(
+			MacCASOutreach$graphicsvg$GraphicSVG$move,
+			_Utils_Tuple2(0, 1),
+			A2(
+				MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				colour,
+				A3(MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, width, 6, 4)));
+	});
 var author$project$Main$charWidth = 8;
 var MacCASOutreach$graphicsvg$GraphicSVG$FixedWidth = {$: 'FixedWidth'};
 var MacCASOutreach$graphicsvg$GraphicSVG$fixedwidth = function (stencil) {
@@ -8784,7 +8790,8 @@ var author$project$Main$txtFmt = function (stencil) {
 var author$project$Main$display = F2(
 	function (highlight, _n0) {
 		var expr0 = _n0.a;
-		var mkClickable = _n0.b;
+		var col = _n0.b;
+		var mkClickable = _n0.c;
 		switch (expr0.$) {
 			case 'Const':
 				var _float = expr0.a;
@@ -8792,7 +8799,7 @@ var author$project$Main$display = F2(
 				return _Utils_Tuple2(
 					MacCASOutreach$graphicsvg$GraphicSVG$group(
 						(_Utils_eq(highlight, author$project$Main$CConst) ? elm$core$List$cons(
-							author$project$Main$backlit(width)) : elm$core$Basics$identity)(
+							A2(author$project$Main$backlit, width, col)) : elm$core$Basics$identity)(
 							_List_fromArray(
 								[
 									A2(
@@ -8827,16 +8834,18 @@ var author$project$Main$display = F2(
 				var _n4 = A2(
 					author$project$Main$display,
 					rightRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr2,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CPlusRight)));
 				var right = _n4.a;
 				var rightWidth = _n4.b;
 				var _n5 = A2(
 					author$project$Main$display,
 					leftRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CPlusLeft)));
 				var left = _n5.a;
 				var leftWidth = _n5.b;
@@ -8845,7 +8854,7 @@ var author$project$Main$display = F2(
 						A2(
 						MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(0.5 * (rightWidth - leftWidth), 0),
-						author$project$Main$backlit((leftWidth + rightWidth) + author$project$Main$charWidth))
+						A2(author$project$Main$backlit, (leftWidth + rightWidth) + author$project$Main$charWidth, col))
 					]) : _List_Nil;
 				return _Utils_Tuple2(
 					A2(
@@ -8924,16 +8933,18 @@ var author$project$Main$display = F2(
 				var _n8 = A2(
 					author$project$Main$display,
 					rightRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr2,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CSubtRight)));
 				var right = _n8.a;
 				var rightWidth = _n8.b;
 				var _n9 = A2(
 					author$project$Main$display,
 					leftRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CSubtLeft)));
 				var left = _n9.a;
 				var leftWidth = _n9.b;
@@ -8942,7 +8953,7 @@ var author$project$Main$display = F2(
 						A2(
 						MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(0.5 * (rightWidth - leftWidth), 0),
-						author$project$Main$backlit((leftWidth + rightWidth) + author$project$Main$charWidth))
+						A2(author$project$Main$backlit, (leftWidth + rightWidth) + author$project$Main$charWidth, col))
 					]) : _List_Nil;
 				return _Utils_Tuple2(
 					A2(
@@ -9021,16 +9032,18 @@ var author$project$Main$display = F2(
 				var _n12 = A2(
 					author$project$Main$display,
 					rightRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr2,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CMultRight)));
 				var right = _n12.a;
 				var rightWidth = _n12.b;
 				var _n13 = A2(
 					author$project$Main$display,
 					leftRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CMultLeft)));
 				var left = _n13.a;
 				var leftWidth = _n13.b;
@@ -9039,7 +9052,7 @@ var author$project$Main$display = F2(
 						A2(
 						MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(0.5 * (rightWidth - leftWidth), 0),
-						author$project$Main$backlit((leftWidth + rightWidth) + author$project$Main$charWidth))
+						A2(author$project$Main$backlit, (leftWidth + rightWidth) + author$project$Main$charWidth, col))
 					]) : _List_Nil;
 				return _Utils_Tuple2(
 					A2(
@@ -9118,16 +9131,18 @@ var author$project$Main$display = F2(
 				var _n16 = A2(
 					author$project$Main$display,
 					rightRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr2,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CDivRight)));
 				var right = _n16.a;
 				var rightWidth = _n16.b;
 				var _n17 = A2(
 					author$project$Main$display,
 					leftRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CDivLeft)));
 				var left = _n17.a;
 				var leftWidth = _n17.b;
@@ -9136,7 +9151,7 @@ var author$project$Main$display = F2(
 						A2(
 						MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(0.5 * (rightWidth - leftWidth), 0),
-						author$project$Main$backlit((leftWidth + rightWidth) + author$project$Main$charWidth))
+						A2(author$project$Main$backlit, (leftWidth + rightWidth) + author$project$Main$charWidth, col))
 					]) : _List_Nil;
 				return _Utils_Tuple2(
 					A2(
@@ -9215,16 +9230,18 @@ var author$project$Main$display = F2(
 				var _n20 = A2(
 					author$project$Main$display,
 					rightRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr2,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CExpRight)));
 				var right = _n20.a;
 				var rightWidth = _n20.b;
 				var _n21 = A2(
 					author$project$Main$display,
 					leftRecurse,
-					_Utils_Tuple2(
+					_Utils_Tuple3(
 						expr,
+						col,
 						A2(elm$core$Basics$composeL, mkClickable, author$project$Main$CExpLeft)));
 				var left = _n21.a;
 				var leftWidth = _n21.b;
@@ -9233,7 +9250,7 @@ var author$project$Main$display = F2(
 						A2(
 						MacCASOutreach$graphicsvg$GraphicSVG$move,
 						_Utils_Tuple2(0.5 * (rightWidth - leftWidth), 0),
-						author$project$Main$backlit((leftWidth + rightWidth) + author$project$Main$charWidth))
+						A2(author$project$Main$backlit, (leftWidth + rightWidth) + author$project$Main$charWidth, col))
 					]) : _List_Nil;
 				return _Utils_Tuple2(
 					A2(
@@ -9294,7 +9311,7 @@ var author$project$Main$display = F2(
 				return _Utils_Tuple2(
 					MacCASOutreach$graphicsvg$GraphicSVG$group(
 						(_Utils_eq(highlight, author$project$Main$CVar) ? elm$core$List$cons(
-							author$project$Main$backlit(author$project$Main$charWidth)) : elm$core$Basics$identity)(
+							A2(author$project$Main$backlit, author$project$Main$charWidth, col)) : elm$core$Basics$identity)(
 							_List_fromArray(
 								[
 									A2(
@@ -9315,7 +9332,7 @@ var author$project$Main$myShapes = function (model) {
 				A2(
 				author$project$Main$display,
 				model.highlight,
-				_Utils_Tuple2(model.expr, elm$core$Basics$identity)).a,
+				_Utils_Tuple3(model.expr, MacCASOutreach$graphicsvg$GraphicSVG$white, elm$core$Basics$identity)).a,
 				A2(
 				MacCASOutreach$graphicsvg$GraphicSVG$move,
 				_Utils_Tuple2(0, -30),
@@ -9328,7 +9345,32 @@ var author$project$Main$myShapes = function (model) {
 			]),
 		function () {
 			var _n0 = model.state;
-			return _List_Nil;
+			if (_n0.$ === 'Waiting') {
+				return _Utils_eq(
+					model.highlight,
+					author$project$Main$CSubtRight(author$project$Main$CExp)) ? _List_fromArray(
+					[
+						A2(
+						author$project$Main$display,
+						model.highlight,
+						_Utils_Tuple3(
+							A2(
+								author$project$Main$Subt,
+								author$project$Main$Const(20),
+								author$project$Main$Const(16)),
+							MacCASOutreach$graphicsvg$GraphicSVG$green,
+							elm$core$Basics$identity)).a
+					]) : (_Utils_eq(model.highlight, author$project$Main$CSubt) ? _List_fromArray(
+					[
+						A2(
+						author$project$Main$display,
+						model.highlight,
+						_Utils_Tuple3(model.expr, MacCASOutreach$graphicsvg$GraphicSVG$red, elm$core$Basics$identity)).a
+					]) : _List_Nil);
+			} else {
+				var highlight = _n0.a;
+				return _List_Nil;
+			}
 		}());
 };
 var author$project$Main$view = function (model) {
