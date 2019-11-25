@@ -45,15 +45,19 @@ myShapes model =
           -- apply drawWord to two inputs, the index in list, and the value in the wordList
           []
 
-type Expr = Const Float | Plus Expr Expr | Mult Expr Expr | Var String
+type Expr = Const Float | Plus Expr Expr | Subt Expr Expr | Mult Expr Expr | Div Expr Expr | Exp Expr Expr | Var String -- tree for expresions
 
 type Clickable = CConst
                | CPlus | CPlusLeft Clickable | CPlusRight Clickable
+               | CSubt | CSubtLeft Clickable | CSubtRight Clickable
                | CMult | CMultLeft Clickable | CMultRight Clickable
+               | CDiv | CDivLeft Clickable | CDivRight Clickable
+               | CExp | CExpLeft Clickable | CExpRight Clickable
                | CVar
                | CNotHere
 
 example1 = Plus (Mult (Const 7) (Var "x")) (Var "y")
+example2 = Subt (Const 20) (Exp (Const 4)(Const 2))
 
 -- text formatting
 txtFmt stencil = stencil |> size 4 |> fixedwidth
@@ -121,6 +125,42 @@ display highlight (expr0,mkClickable) =
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
           , 1*charWidth + leftWidth + rightWidth )
 
+      Subt expr expr2 -> 
+        let
+            (leftRecurse, rightRecurse)
+              = case highlight of
+                  CSubt ->
+                    (CNotHere
+                    ,CNotHere
+                    )
+                  CSubtLeft cl ->
+                    (cl,CNotHere)
+                  CSubtRight cl ->
+                    (CNotHere,cl)
+                  otherwise ->
+                    (CNotHere
+                    ,CNotHere
+                    )
+            (left,leftWidth) = display leftRecurse (expr,mkClickable << CSubtLeft)
+            (right,rightWidth) = display rightRecurse (expr2,mkClickable << CSubtRight)
+
+            hl = if highlight == CSubt
+                  then [ backlit (leftWidth + rightWidth + charWidth) |> move ( 0.5 * (rightWidth - leftWidth), 0)]
+                  else []
+        in
+          ( group ( hl ++
+                [
+                  text "(" |> txtFmt |> centered |> filled orange |> move (-0.125*charWidth - leftWidth, 0)
+                , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
+                , text "-" |> txtFmt |> centered |> filled orange
+                , circle 3 |> filled (rgba 0 0 0 0.1) |> move (0,1) |> notifyTap (Tap <| mkClickable CSubt)
+                , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
+                , text ")" |> txtFmt |> centered |> filled orange |> move (0.125*charWidth + rightWidth,0)
+                -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled orange
+                ]
+            ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
+          , 1*charWidth + leftWidth + rightWidth )
+      
       Mult expr expr2 ->
         let
             (leftRecurse, rightRecurse)
@@ -149,6 +189,76 @@ display highlight (expr0,mkClickable) =
             , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
             , text "*" |> txtFmt |> centered |> filled black
             , circle 3 |> filled (rgba 0 0 0 0.1) |> move (0,1) |> notifyTap (Tap <| mkClickable CMult)
+            , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
+            , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
+            -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
+            ]
+            ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
+          , 1*charWidth + leftWidth + rightWidth )
+
+      Div expr expr2 ->
+        let
+            (leftRecurse, rightRecurse)
+              = case highlight of
+                  CDiv ->
+                    (CNotHere
+                    ,CNotHere
+                    )
+                  CDivLeft cl ->
+                    (cl,CNotHere)
+                  CDivRight cl ->
+                    (CNotHere,cl)
+                  otherwise ->
+                    (CNotHere,CNotHere)
+
+            (left,leftWidth) = display leftRecurse (expr,mkClickable << CDivLeft)
+            (right,rightWidth) = display rightRecurse (expr2,mkClickable << CDivRight)
+
+            hl = if highlight == CDiv
+                  then [ backlit (leftWidth + rightWidth + charWidth) |> move ( 0.5 * (rightWidth - leftWidth), 0)]
+                  else []
+        in
+          ( group ( hl ++
+            [
+              text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
+            , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
+            , text "/" |> txtFmt |> centered |> filled black
+            , circle 3 |> filled (rgba 0 0 0 0.1) |> move (0,1) |> notifyTap (Tap <| mkClickable CDiv)
+            , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
+            , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
+            -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
+            ]
+            ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
+          , 1*charWidth + leftWidth + rightWidth )
+
+      Exp expr expr2 ->
+        let
+            (leftRecurse, rightRecurse)
+              = case highlight of
+                  CExp ->
+                    (CNotHere
+                    ,CNotHere
+                    )
+                  CExpLeft cl ->
+                    (cl,CNotHere)
+                  CExpRight cl ->
+                    (CNotHere,cl)
+                  otherwise ->
+                    (CNotHere,CNotHere)
+
+            (left,leftWidth) = display leftRecurse (expr,mkClickable << CExpLeft)
+            (right,rightWidth) = display rightRecurse (expr2,mkClickable << CExpRight)
+
+            hl = if highlight == CExp
+                  then [ backlit (leftWidth + rightWidth + charWidth) |> move ( 0.5 * (rightWidth - leftWidth), 0)]
+                  else []
+        in
+          ( group ( hl ++
+            [
+              text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
+            , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
+            , text "^" |> txtFmt |> centered |> filled black
+            , circle 3 |> filled (rgba 0 0 0 0.1) |> move (0,1) |> notifyTap (Tap <| mkClickable CExp)
             , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
             , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
             -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
@@ -187,6 +297,6 @@ type alias Model =
 init : Model
 init = { time = 0
        , state = Waiting
-       , expr = example1
+       , expr = example2
        , highlight = CNotHere
        }
