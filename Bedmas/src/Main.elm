@@ -78,7 +78,7 @@ txtFmt stencil = stencil |> size 4 |> fixedwidth
 charWidth = 8
 
 -- highlight shape
-backlit width colour = roundedRect width 6 4 |> filled colour |> move (0,1)
+backlit width colour = roundedRect width 6 4 |> filled colour |> makeTransparent 0.5 |> move (0,1)
 
 display : Clickable         -- breadcrumbs to element to highlight
         -> (Expr, Color, Clickable -> Clickable)  -- (expr,breadcrumbs so far)
@@ -310,8 +310,8 @@ type alias Model =
 
 init : Model
 init = { time = 0
-       , state = Ex1
-       , expr = example1
+       , state = Ex2
+       , expr = example2
        , highlight = CNotHere
        }
 

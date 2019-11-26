@@ -8538,29 +8538,26 @@ var author$project$Main$Tick = F2(
 		return {$: 'Tick', a: a, b: b};
 	});
 var author$project$Main$CNotHere = {$: 'CNotHere'};
-var author$project$Main$Ex1 = {$: 'Ex1'};
+var author$project$Main$Ex2 = {$: 'Ex2'};
 var author$project$Main$Const = function (a) {
 	return {$: 'Const', a: a};
 };
-var author$project$Main$Mult = F2(
+var author$project$Main$Exp = F2(
 	function (a, b) {
-		return {$: 'Mult', a: a, b: b};
+		return {$: 'Exp', a: a, b: b};
 	});
-var author$project$Main$Plus = F2(
+var author$project$Main$Subt = F2(
 	function (a, b) {
-		return {$: 'Plus', a: a, b: b};
+		return {$: 'Subt', a: a, b: b};
 	});
-var author$project$Main$Var = function (a) {
-	return {$: 'Var', a: a};
-};
-var author$project$Main$example1 = A2(
-	author$project$Main$Plus,
+var author$project$Main$example2 = A2(
+	author$project$Main$Subt,
+	author$project$Main$Const(20),
 	A2(
-		author$project$Main$Mult,
-		author$project$Main$Const(7),
-		author$project$Main$Var('x')),
-	author$project$Main$Var('y'));
-var author$project$Main$init = {expr: author$project$Main$example1, highlight: author$project$Main$CNotHere, state: author$project$Main$Ex1, time: 0};
+		author$project$Main$Exp,
+		author$project$Main$Const(4),
+		author$project$Main$Const(2)));
+var author$project$Main$init = {expr: author$project$Main$example2, highlight: author$project$Main$CNotHere, state: author$project$Main$Ex2, time: 0};
 var author$project$Main$update = F2(
 	function (msg, model) {
 		if (msg.$ === 'Tick') {
@@ -8717,6 +8714,282 @@ var author$project$Main$CVar = {$: 'CVar'};
 var author$project$Main$Tap = function (a) {
 	return {$: 'Tap', a: a};
 };
+var MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent = F2(
+	function (alpha, shape) {
+		switch (shape.$) {
+			case 'ForeignObject':
+				var w = shape.a;
+				var h = shape.b;
+				var htm = shape.c;
+				return A3(MacCASOutreach$graphicsvg$GraphicSVG$ForeignObject, w, h, htm);
+			case 'Move':
+				var s = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Move,
+					s,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Rotate':
+				var r = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Rotate,
+					r,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Scale':
+				var sx = shape.a;
+				var sy = shape.b;
+				var sh = shape.c;
+				return A3(
+					MacCASOutreach$graphicsvg$GraphicSVG$Scale,
+					sx,
+					sy,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Skew':
+				var skx = shape.a;
+				var sky = shape.b;
+				var sh = shape.c;
+				return A3(
+					MacCASOutreach$graphicsvg$GraphicSVG$Skew,
+					skx,
+					sky,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Transformed':
+				var tm = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Transformed,
+					tm,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Group':
+				var list = shape.a;
+				return MacCASOutreach$graphicsvg$GraphicSVG$Group(
+					A2(
+						elm$core$List$map,
+						MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent(alpha),
+						list));
+			case 'GroupOutline':
+				var cmbndshp = shape.a;
+				return MacCASOutreach$graphicsvg$GraphicSVG$GroupOutline(
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, cmbndshp));
+			case 'Link':
+				var s = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Link,
+					s,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'AlphaMask':
+				var reg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$AlphaMask,
+					reg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Clip':
+				var reg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Clip,
+					reg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Everything':
+				return MacCASOutreach$graphicsvg$GraphicSVG$Everything;
+			case 'Notathing':
+				return MacCASOutreach$graphicsvg$GraphicSVG$Notathing;
+			case 'Tap':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Tap,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'TapAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$TapAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'EnterShape':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$EnterShape,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'EnterAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$EnterAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'Exit':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$Exit,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'ExitAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$ExitAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'MouseDown':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$MouseDown,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'MouseDownAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$MouseDownAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'MouseUp':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$MouseUp,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'MouseUpAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$MouseUpAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'MoveOverAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$MoveOverAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'TouchStart':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$TouchStart,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'TouchEnd':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$TouchEnd,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'TouchStartAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$TouchStartAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'TouchEndAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$TouchEndAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'TouchMoveAt':
+				var userMsg = shape.a;
+				var sh = shape.b;
+				return A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$TouchMoveAt,
+					userMsg,
+					A2(MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+			case 'GraphPaper':
+				var s = shape.a;
+				var th = shape.b;
+				var _n9 = shape.c;
+				var r = _n9.a;
+				var g = _n9.b;
+				var b = _n9.c;
+				var a = _n9.d;
+				return A3(
+					MacCASOutreach$graphicsvg$GraphicSVG$GraphPaper,
+					s,
+					th,
+					A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, r, g, b, a * alpha));
+			default:
+				if (shape.a.$ === 'Just') {
+					if (shape.b.$ === 'Just') {
+						var _n4 = shape.a.a;
+						var r = _n4.a;
+						var g = _n4.b;
+						var b = _n4.c;
+						var a = _n4.d;
+						var _n5 = shape.b.a;
+						var lineType = _n5.a;
+						var _n6 = _n5.b;
+						var sr = _n6.a;
+						var sg = _n6.b;
+						var sb = _n6.c;
+						var sa = _n6.d;
+						var st = shape.c;
+						return A3(
+							MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+							elm$core$Maybe$Just(
+								A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, r, g, b, a * alpha)),
+							elm$core$Maybe$Just(
+								_Utils_Tuple2(
+									lineType,
+									A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, sr, sg, sb, sa * alpha))),
+							st);
+					} else {
+						var _n7 = shape.a.a;
+						var r = _n7.a;
+						var g = _n7.b;
+						var b = _n7.c;
+						var a = _n7.d;
+						var _n8 = shape.b;
+						var st = shape.c;
+						return A3(
+							MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+							elm$core$Maybe$Just(
+								A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, r, g, b, a * alpha)),
+							elm$core$Maybe$Nothing,
+							st);
+					}
+				} else {
+					if (shape.b.$ === 'Just') {
+						var _n1 = shape.a;
+						var _n2 = shape.b.a;
+						var lineType = _n2.a;
+						var _n3 = _n2.b;
+						var sr = _n3.a;
+						var sg = _n3.b;
+						var sb = _n3.c;
+						var sa = _n3.d;
+						var st = shape.c;
+						return A3(
+							MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+							elm$core$Maybe$Nothing,
+							elm$core$Maybe$Just(
+								_Utils_Tuple2(
+									lineType,
+									A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, sr, sg, sb, sa * alpha))),
+							st);
+					} else {
+						var _n10 = shape.a;
+						var _n11 = shape.b;
+						var st = shape.c;
+						return shape;
+					}
+				}
+		}
+	});
 var MacCASOutreach$graphicsvg$GraphicSVG$RoundRect = F3(
 	function (a, b, c) {
 		return {$: 'RoundRect', a: a, b: b, c: c};
@@ -8731,9 +9004,12 @@ var author$project$Main$backlit = F2(
 			MacCASOutreach$graphicsvg$GraphicSVG$move,
 			_Utils_Tuple2(0, 1),
 			A2(
-				MacCASOutreach$graphicsvg$GraphicSVG$filled,
-				colour,
-				A3(MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, width, 6, 4)));
+				MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+				0.5,
+				A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					colour,
+					A3(MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, width, 6, 4))));
 	});
 var author$project$Main$charWidth = 8;
 var MacCASOutreach$graphicsvg$GraphicSVG$FixedWidth = {$: 'FixedWidth'};
@@ -9709,21 +9985,6 @@ var author$project$Main$example = MacCASOutreach$graphicsvg$GraphicSVG$group(
 						MacCASOutreach$graphicsvg$GraphicSVG$serif(
 							MacCASOutreach$graphicsvg$GraphicSVG$text('Example'))))))
 		]));
-var author$project$Main$Exp = F2(
-	function (a, b) {
-		return {$: 'Exp', a: a, b: b};
-	});
-var author$project$Main$Subt = F2(
-	function (a, b) {
-		return {$: 'Subt', a: a, b: b};
-	});
-var author$project$Main$example2 = A2(
-	author$project$Main$Subt,
-	author$project$Main$Const(20),
-	A2(
-		author$project$Main$Exp,
-		author$project$Main$Const(4),
-		author$project$Main$Const(2)));
 var author$project$Main$example22 = A2(
 	author$project$Main$Subt,
 	author$project$Main$Const(20),
@@ -9853,7 +10114,7 @@ var author$project$Main$myShapes = function (model) {
 						A2(
 						author$project$Main$display,
 						model.highlight,
-						_Utils_Tuple3(author$project$Main$example22, MacCASOutreach$graphicsvg$GraphicSVG$green, elm$core$Basics$identity)).a
+						_Utils_Tuple3(author$project$Main$example2, MacCASOutreach$graphicsvg$GraphicSVG$green, elm$core$Basics$identity)).a
 					]) : ((_Utils_eq(model.expr, author$project$Main$example22) && _Utils_eq(model.highlight, author$project$Main$CSubt)) ? _List_fromArray(
 					[
 						A2(
