@@ -293,13 +293,22 @@ type Msg = Tick Float GetKeyState
 type State = Ex1
            | Ex2
 
+type Simplify = Level0 | Level1 | Level2 | Level3 | Done
+
 update msg model =
     case msg of
         Tick t _ ->
-            case (model.state, model.highlight) of
+            case (model.state, model.simplify) of
                 -- Ex1  -> { model | time = t }
-                (Ex2,CSubtRight CExp)  -> { model | time = t,
-                  expr = example22 }
+                (Ex2, Level0)  -> 
+                    case (model.highlight) of 
+                        (CSubtRight CExp) -> { model | time = t, expr = example22, simplify = Level1 }
+                        otherwise -> { model | time = t}
+                (Ex2, Level1) ->
+                    case (model.highlight) of 
+                        (CSubt) -> { model | time = t, expr = example23, simplify = Done }
+                        otherwise -> { model | time = t}
+                        
                 -- (Ex2,CSubt) -> { model | time = t,
                 --   expr = example23 }
                 otherwise -> { model | time = t }
@@ -312,6 +321,7 @@ type alias Model =
     { time : Float
     , state : State
     , expr : Expr
+    , simplify : Simplify
     , highlight : Clickable
     }
 
@@ -319,6 +329,7 @@ init : Model
 init = { time = 0
        , state = Ex2
        , expr = example2
+       , simplify = Level0
        , highlight = CNotHere
        }
 
