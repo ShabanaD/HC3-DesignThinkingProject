@@ -8538,7 +8538,7 @@ var author$project$Main$Tick = F2(
 		return {$: 'Tick', a: a, b: b};
 	});
 var author$project$Main$CNotHere = {$: 'CNotHere'};
-var author$project$Main$Waiting = {$: 'Waiting'};
+var author$project$Main$Ex2 = {$: 'Ex2'};
 var author$project$Main$Const = function (a) {
 	return {$: 'Const', a: a};
 };
@@ -8557,26 +8557,20 @@ var author$project$Main$example2 = A2(
 		author$project$Main$Exp,
 		author$project$Main$Const(4),
 		author$project$Main$Const(2)));
-var author$project$Main$init = {expr: author$project$Main$example2, highlight: author$project$Main$CNotHere, state: author$project$Main$Waiting, time: 0};
+var author$project$Main$init = {expr: author$project$Main$example2, highlight: author$project$Main$CNotHere, state: author$project$Main$Ex2, time: 0};
 var author$project$Main$update = F2(
 	function (msg, model) {
 		if (msg.$ === 'Tick') {
 			var t = msg.a;
 			var _n1 = model.state;
-			if (_n1.$ === 'Waiting') {
+			if (_n1.$ === 'Ex1') {
 				return _Utils_update(
 					model,
 					{time: t});
 			} else {
-				var highlight = _n1.a;
 				return _Utils_update(
 					model,
-					{
-						expr: A2(
-							author$project$Main$Subt,
-							author$project$Main$Const(20),
-							author$project$Main$Const(16))
-					});
+					{time: t});
 			}
 		} else {
 			var clickable = msg.a;
@@ -8589,8 +8583,7 @@ var MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3(MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
-var MacCASOutreach$graphicsvg$GraphicSVG$green = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 115, 210, 22, 1);
-var MacCASOutreach$graphicsvg$GraphicSVG$red = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 204, 0, 0, 1);
+var MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
 var MacCASOutreach$graphicsvg$GraphicSVG$Face = F8(
 	function (a, b, c, d, e, f, g, h) {
 		return {$: 'Face', a: a, b: b, c: c, d: d, e: e, f: f, g: g, h: h};
@@ -8599,6 +8592,30 @@ var MacCASOutreach$graphicsvg$GraphicSVG$Text = F2(
 	function (a, b) {
 		return {$: 'Text', a: a, b: b};
 	});
+var MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
+	if (stencil.$ === 'Text') {
+		var _n1 = stencil.a;
+		var si = _n1.a;
+		var bo = _n1.b;
+		var i = _n1.c;
+		var u = _n1.d;
+		var s = _n1.e;
+		var sel = _n1.f;
+		var f = _n1.g;
+		var c = _n1.h;
+		var str = stencil.b;
+		return A2(
+			MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(MacCASOutreach$graphicsvg$GraphicSVG$Face, si, bo, i, u, s, sel, f, MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred),
+			str);
+	} else {
+		var a = stencil;
+		return a;
+	}
+};
+var MacCASOutreach$graphicsvg$GraphicSVG$green = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 115, 210, 22, 1);
+var MacCASOutreach$graphicsvg$GraphicSVG$lightPurple = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 173, 127, 168, 1);
+var MacCASOutreach$graphicsvg$GraphicSVG$red = A4(MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 204, 0, 0, 1);
 var MacCASOutreach$graphicsvg$GraphicSVG$selectable = function (stencil) {
 	if (stencil.$ === 'Text') {
 		var _n1 = stencil.a;
@@ -8620,6 +8637,28 @@ var MacCASOutreach$graphicsvg$GraphicSVG$selectable = function (stencil) {
 		return a;
 	}
 };
+var MacCASOutreach$graphicsvg$GraphicSVG$size = F2(
+	function (sze, stencil) {
+		if (stencil.$ === 'Text') {
+			var _n1 = stencil.a;
+			var si = _n1.a;
+			var bo = _n1.b;
+			var i = _n1.c;
+			var u = _n1.d;
+			var s = _n1.e;
+			var sel = _n1.f;
+			var f = _n1.g;
+			var c = _n1.h;
+			var str = stencil.b;
+			return A2(
+				MacCASOutreach$graphicsvg$GraphicSVG$Text,
+				A8(MacCASOutreach$graphicsvg$GraphicSVG$Face, sze, bo, i, u, s, sel, f, c),
+				str);
+		} else {
+			var a = stencil;
+			return a;
+		}
+	});
 var MacCASOutreach$graphicsvg$GraphicSVG$AlignLeft = {$: 'AlignLeft'};
 var MacCASOutreach$graphicsvg$GraphicSVG$Serif = {$: 'Serif'};
 var MacCASOutreach$graphicsvg$GraphicSVG$text = function (str) {
@@ -8632,28 +8671,6 @@ var author$project$Main$CExp = {$: 'CExp'};
 var author$project$Main$CSubt = {$: 'CSubt'};
 var author$project$Main$CSubtRight = function (a) {
 	return {$: 'CSubtRight', a: a};
-};
-var MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
-var MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
-	if (stencil.$ === 'Text') {
-		var _n1 = stencil.a;
-		var si = _n1.a;
-		var bo = _n1.b;
-		var i = _n1.c;
-		var u = _n1.d;
-		var s = _n1.e;
-		var sel = _n1.f;
-		var f = _n1.g;
-		var c = _n1.h;
-		var str = stencil.b;
-		return A2(
-			MacCASOutreach$graphicsvg$GraphicSVG$Text,
-			A8(MacCASOutreach$graphicsvg$GraphicSVG$Face, si, bo, i, u, s, sel, f, MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred),
-			str);
-	} else {
-		var a = stencil;
-		return a;
-	}
 };
 var MacCASOutreach$graphicsvg$GraphicSVG$Circle = function (a) {
 	return {$: 'Circle', a: a};
@@ -8761,28 +8778,6 @@ var MacCASOutreach$graphicsvg$GraphicSVG$fixedwidth = function (stencil) {
 		return a;
 	}
 };
-var MacCASOutreach$graphicsvg$GraphicSVG$size = F2(
-	function (sze, stencil) {
-		if (stencil.$ === 'Text') {
-			var _n1 = stencil.a;
-			var si = _n1.a;
-			var bo = _n1.b;
-			var i = _n1.c;
-			var u = _n1.d;
-			var s = _n1.e;
-			var sel = _n1.f;
-			var f = _n1.g;
-			var c = _n1.h;
-			var str = stencil.b;
-			return A2(
-				MacCASOutreach$graphicsvg$GraphicSVG$Text,
-				A8(MacCASOutreach$graphicsvg$GraphicSVG$Face, sze, bo, i, u, s, sel, f, c),
-				str);
-		} else {
-			var a = stencil;
-			return a;
-		}
-	});
 var author$project$Main$txtFmt = function (stencil) {
 	return MacCASOutreach$graphicsvg$GraphicSVG$fixedwidth(
 		A2(MacCASOutreach$graphicsvg$GraphicSVG$size, 4, stencil));
@@ -9324,15 +9319,35 @@ var author$project$Main$display = F2(
 					author$project$Main$charWidth);
 		}
 	});
+var author$project$Main$example22 = A2(
+	author$project$Main$Subt,
+	author$project$Main$Const(20),
+	author$project$Main$Const(16));
+var author$project$Main$example23 = author$project$Main$Const(4);
 var elm$core$Debug$toString = _Debug_toString;
 var author$project$Main$myShapes = function (model) {
 	return _Utils_ap(
 		_List_fromArray(
 			[
 				A2(
-				author$project$Main$display,
-				model.highlight,
-				_Utils_Tuple3(model.expr, MacCASOutreach$graphicsvg$GraphicSVG$white, elm$core$Basics$identity)).a,
+				MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 50),
+				A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					MacCASOutreach$graphicsvg$GraphicSVG$lightPurple,
+					A2(
+						MacCASOutreach$graphicsvg$GraphicSVG$size,
+						10,
+						MacCASOutreach$graphicsvg$GraphicSVG$text('BEDMAS')))),
+				A2(
+				MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 30),
+				A2(
+					MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					MacCASOutreach$graphicsvg$GraphicSVG$black,
+					MacCASOutreach$graphicsvg$GraphicSVG$centered(
+						author$project$Main$txtFmt(
+							MacCASOutreach$graphicsvg$GraphicSVG$text('Which operation goes first?'))))),
 				A2(
 				MacCASOutreach$graphicsvg$GraphicSVG$move,
 				_Utils_Tuple2(0, -30),
@@ -9345,31 +9360,42 @@ var author$project$Main$myShapes = function (model) {
 			]),
 		function () {
 			var _n0 = model.state;
-			if (_n0.$ === 'Waiting') {
-				return _Utils_eq(
-					model.highlight,
-					author$project$Main$CSubtRight(author$project$Main$CExp)) ? _List_fromArray(
+			if (_n0.$ === 'Ex1') {
+				return _List_fromArray(
 					[
 						A2(
 						author$project$Main$display,
 						model.highlight,
-						_Utils_Tuple3(
-							A2(
-								author$project$Main$Subt,
-								author$project$Main$Const(20),
-								author$project$Main$Const(16)),
-							MacCASOutreach$graphicsvg$GraphicSVG$green,
-							elm$core$Basics$identity)).a
-					]) : (_Utils_eq(model.highlight, author$project$Main$CSubt) ? _List_fromArray(
+						_Utils_Tuple3(model.expr, MacCASOutreach$graphicsvg$GraphicSVG$white, elm$core$Basics$identity)).a
+					]);
+			} else {
+				return (_Utils_eq(model.expr, author$project$Main$example2) && _Utils_eq(
+					model.highlight,
+					author$project$Main$CSubtRight(author$project$Main$CExp))) ? _List_fromArray(
+					[
+						A2(
+						author$project$Main$display,
+						model.highlight,
+						_Utils_Tuple3(author$project$Main$example22, MacCASOutreach$graphicsvg$GraphicSVG$green, elm$core$Basics$identity)).a
+					]) : ((_Utils_eq(model.expr, author$project$Main$example22) && _Utils_eq(model.highlight, author$project$Main$CSubt)) ? _List_fromArray(
+					[
+						A2(
+						author$project$Main$display,
+						model.highlight,
+						_Utils_Tuple3(author$project$Main$example23, MacCASOutreach$graphicsvg$GraphicSVG$green, elm$core$Basics$identity)).a
+					]) : ((_Utils_eq(model.expr, author$project$Main$example2) && _Utils_eq(model.highlight, author$project$Main$CSubt)) ? _List_fromArray(
 					[
 						A2(
 						author$project$Main$display,
 						model.highlight,
 						_Utils_Tuple3(model.expr, MacCASOutreach$graphicsvg$GraphicSVG$red, elm$core$Basics$identity)).a
-					]) : _List_Nil);
-			} else {
-				var highlight = _n0.a;
-				return _List_Nil;
+					]) : _List_fromArray(
+					[
+						A2(
+						author$project$Main$display,
+						model.highlight,
+						_Utils_Tuple3(model.expr, MacCASOutreach$graphicsvg$GraphicSVG$white, elm$core$Basics$identity)).a
+					])));
 			}
 		}());
 };
