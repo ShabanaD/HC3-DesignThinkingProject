@@ -53,7 +53,6 @@ myShapes model =
           else if (model.expr == example2 && model.highlight == CSubt)
           then [ Tuple.first <| display model.highlight (model.expr, red, identity)]
           else [ Tuple.first <| display model.highlight (model.expr, white, identity)]
-          
 
 type Expr = Const Float | Plus Expr Expr | Subt Expr Expr | Mult Expr Expr | Div Expr Expr | Exp Expr Expr | Var String -- tree for expresions
 
@@ -67,6 +66,8 @@ type Clickable = CConst
                | CNotHere
 
 example1 = Plus (Mult (Const 7) (Var "x")) (Var "y")
+example12 = Plus (Var "7x") (Var "y" )
+example13 = Var "7x + y"
 example2 = Subt (Const 20) (Exp (Const 4)(Const 2))
 example22 = Subt (Const 20) (Const 16)
 example23 = (Const 4)
@@ -295,11 +296,17 @@ type State = Ex1
 update msg model =
     case msg of
         Tick t _ ->
-            case model.state of
-                Ex1  -> { model | time = t }
-                Ex2 -> { model | time = t }
+            case (model.state, model.highlight) of
+                -- Ex1  -> { model | time = t }
+                (Ex2,CSubtRight CExp)  -> { model | time = t,
+                  expr = example22 }
+                -- (Ex2,CSubt) -> { model | time = t,
+                --   expr = example23 }
+                otherwise -> { model | time = t }
         Tap clickable ->
           { model | highlight = clickable }
+        -- CLICKFUNCTION State -> case State of
+        --         state1 -> {model | expr = }
 
 type alias Model =
     { time : Float
