@@ -8562,6 +8562,25 @@ var $author$project$Main$example2 = A2(
 		$author$project$Main$Const(4),
 		$author$project$Main$Const(2)));
 var $author$project$Main$init = {expr: $author$project$Main$example2, highlight: $author$project$Main$CNotHere, hint: '', state: $author$project$Main$Ex2, time: 0};
+var $author$project$Main$Ex1 = {$: 'Ex1'};
+var $author$project$Main$Mult = F2(
+	function (a, b) {
+		return {$: 'Mult', a: a, b: b};
+	});
+var $author$project$Main$Plus = F2(
+	function (a, b) {
+		return {$: 'Plus', a: a, b: b};
+	});
+var $author$project$Main$Var = function (a) {
+	return {$: 'Var', a: a};
+};
+var $author$project$Main$example1 = A2(
+	$author$project$Main$Plus,
+	A2(
+		$author$project$Main$Mult,
+		$author$project$Main$Const(7),
+		$author$project$Main$Var('x')),
+	$author$project$Main$Var('y'));
 var $author$project$Main$example22 = A2(
 	$author$project$Main$Subt,
 	$author$project$Main$Const(20),
@@ -8577,7 +8596,7 @@ var $author$project$Main$update = F2(
 					var _v3 = _v1.b.a;
 					return _Utils_update(
 						model,
-						{expr: $author$project$Main$example22, hint: 'Good Job', time: t});
+						{expr: $author$project$Main$example22, time: t});
 				} else {
 					var otherwise = _v1;
 					return _Utils_update(
@@ -8589,7 +8608,7 @@ var $author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{highlight: clickable, hint: ''});
-			default:
+			case 'GiveHint':
 				var _v4 = _Utils_Tuple2(model.state, model.highlight);
 				_v4$2:
 				while (true) {
@@ -8618,6 +8637,17 @@ var $author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{hint: ''});
+			default:
+				var _v9 = model.state;
+				if (_v9.$ === 'Ex2') {
+					return _Utils_update(
+						model,
+						{expr: $author$project$Main$example1, state: $author$project$Main$Ex1});
+				} else {
+					return _Utils_update(
+						model,
+						{expr: $author$project$Main$example2, state: $author$project$Main$Ex2});
+				}
 		}
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
@@ -8630,6 +8660,7 @@ var $author$project$Main$CSubtRight = function (a) {
 	return {$: 'CSubtRight', a: a};
 };
 var $author$project$Main$GiveHint = {$: 'GiveHint'};
+var $author$project$Main$SwitchEx = {$: 'SwitchEx'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$Face = F8(
 	function (a, b, c, d, e, f, g, h) {
@@ -10165,6 +10196,40 @@ var $author$project$Main$myShapes = function (model) {
 									$MacCASOutreach$graphicsvg$GraphicSVG$size,
 									7,
 									$MacCASOutreach$graphicsvg$GraphicSVG$text('Hint'))))
+						]))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-25, -50),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					$MacCASOutreach$graphicsvg$GraphicSVG$black,
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$size,
+						7,
+						$MacCASOutreach$graphicsvg$GraphicSVG$text(model.hint)))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+				$author$project$Main$SwitchEx,
+				$MacCASOutreach$graphicsvg$GraphicSVG$group(
+					_List_fromArray(
+						[
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(20, -60),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 133, 182),
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 70, 10, 6))),
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(3, -62),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$black,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$size,
+									7,
+									$MacCASOutreach$graphicsvg$GraphicSVG$text('New Equation'))))
 						]))),
 				A2(
 				$MacCASOutreach$graphicsvg$GraphicSVG$move,
