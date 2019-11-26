@@ -8561,53 +8561,63 @@ var $author$project$Main$example2 = A2(
 		$author$project$Main$Exp,
 		$author$project$Main$Const(4),
 		$author$project$Main$Const(2)));
-var $author$project$Main$init = {expr: $author$project$Main$example2, highlight: $author$project$Main$CNotHere, state: $author$project$Main$Ex2, time: 0};
+var $author$project$Main$init = {expr: $author$project$Main$example2, highlight: $author$project$Main$CNotHere, hint: '', state: $author$project$Main$Ex2, time: 0};
 var $author$project$Main$example22 = A2(
 	$author$project$Main$Subt,
 	$author$project$Main$Const(20),
 	$author$project$Main$Const(16));
-var $author$project$Main$example23 = $author$project$Main$Const(4);
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		if (msg.$ === 'Tick') {
-			var t = msg.a;
-			var _v1 = _Utils_Tuple2(model.state, model.highlight);
-			_v1$2:
-			while (true) {
-				if (_v1.a.$ === 'Ex2') {
-					switch (_v1.b.$) {
-						case 'CSubtRight':
-							if (_v1.b.a.$ === 'CExp') {
-								var _v2 = _v1.a;
-								var _v3 = _v1.b.a;
+		switch (msg.$) {
+			case 'Tick':
+				var t = msg.a;
+				var _v1 = _Utils_Tuple2(model.state, model.highlight);
+				if (((_v1.a.$ === 'Ex2') && (_v1.b.$ === 'CSubtRight')) && (_v1.b.a.$ === 'CExp')) {
+					var _v2 = _v1.a;
+					var _v3 = _v1.b.a;
+					return _Utils_update(
+						model,
+						{expr: $author$project$Main$example22, hint: 'Good Job', time: t});
+				} else {
+					var otherwise = _v1;
+					return _Utils_update(
+						model,
+						{time: t});
+				}
+			case 'Tap':
+				var clickable = msg.a;
+				return _Utils_update(
+					model,
+					{highlight: clickable, hint: ''});
+			default:
+				var _v4 = _Utils_Tuple2(model.state, model.highlight);
+				_v4$2:
+				while (true) {
+					if (_v4.a.$ === 'Ex2') {
+						switch (_v4.b.$) {
+							case 'CNotHere':
+								var _v5 = _v4.a;
+								var _v6 = _v4.b;
 								return _Utils_update(
 									model,
-									{expr: $author$project$Main$example22, time: t});
-							} else {
-								break _v1$2;
-							}
-						case 'CSubt':
-							var _v4 = _v1.a;
-							var _v5 = _v1.b;
-							return _Utils_update(
-								model,
-								{expr: $author$project$Main$example23, time: t});
-						default:
-							break _v1$2;
+									{hint: 'Try clicking on an operation'});
+							case 'CSubt':
+								var _v7 = _v4.a;
+								var _v8 = _v4.b;
+								return _Utils_update(
+									model,
+									{hint: 'Look inside the brackets :)'});
+							default:
+								break _v4$2;
+						}
+					} else {
+						break _v4$2;
 					}
-				} else {
-					break _v1$2;
 				}
-			}
-			var otherwise = _v1;
-			return _Utils_update(
-				model,
-				{time: t});
-		} else {
-			var clickable = msg.a;
-			return _Utils_update(
-				model,
-				{highlight: clickable});
+				var otherwise = _v4;
+				return _Utils_update(
+					model,
+					{hint: ''});
 		}
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
@@ -8619,6 +8629,7 @@ var $author$project$Main$CSubt = {$: 'CSubt'};
 var $author$project$Main$CSubtRight = function (a) {
 	return {$: 'CSubtRight', a: a};
 };
+var $author$project$Main$GiveHint = {$: 'GiveHint'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$Face = F8(
 	function (a, b, c, d, e, f, g, h) {
@@ -9993,8 +10004,18 @@ var $author$project$Main$example = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 						$MacCASOutreach$graphicsvg$GraphicSVG$serif(
 							$MacCASOutreach$graphicsvg$GraphicSVG$text('Example'))))))
 		]));
+var $author$project$Main$example23 = $author$project$Main$Const(4);
 var $MacCASOutreach$graphicsvg$GraphicSVG$green = A4($MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 115, 210, 22, 1);
 var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 204, 0, 0, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
+	function (r, g, b) {
+		return A4(
+			$MacCASOutreach$graphicsvg$GraphicSVG$RGBA,
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(r),
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(g),
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(b),
+			1);
+	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$selectable = function (stencil) {
 	if (stencil.$ === 'Text') {
 		var _v1 = stencil.a;
@@ -10120,7 +10141,41 @@ var $author$project$Main$myShapes = function (model) {
 					$MacCASOutreach$graphicsvg$GraphicSVG$black,
 					$MacCASOutreach$graphicsvg$GraphicSVG$selectable(
 						$MacCASOutreach$graphicsvg$GraphicSVG$text(
-							$elm$core$Debug$toString(model.highlight)))))
+							$elm$core$Debug$toString(model.highlight))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+				$author$project$Main$GiveHint,
+				$MacCASOutreach$graphicsvg$GraphicSVG$group(
+					_List_fromArray(
+						[
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-70, -60),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 133, 182),
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 40, 10, 6))),
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-75, -62),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								$MacCASOutreach$graphicsvg$GraphicSVG$black,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$size,
+									7,
+									$MacCASOutreach$graphicsvg$GraphicSVG$text('Hint'))))
+						]))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-25, -50),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					$MacCASOutreach$graphicsvg$GraphicSVG$black,
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$size,
+						7,
+						$MacCASOutreach$graphicsvg$GraphicSVG$text(model.hint))))
 			]),
 		function () {
 			var _v0 = model.state;
@@ -10166,8 +10221,8 @@ var $author$project$Main$myShapes = function (model) {
 var $author$project$Main$view = function (model) {
 	return A3(
 		$MacCASOutreach$graphicsvg$GraphicSVG$collage,
-		192,
-		128,
+		250,
+		150,
 		$author$project$Main$myShapes(model));
 };
 var $author$project$Main$main = A2(
