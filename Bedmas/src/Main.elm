@@ -43,7 +43,7 @@ myShapes model =
   , text "Which operation goes first?" |> txtFmt |> centered |> filled black |> move (0, 20)
   , exampleBox |> move (-20, 0)
   , expressionOptions model|> move (60, 10)
-  -- , Debug.toString model.highlight |> text |> selectable |> filled black |> move (0,-30)
+  , Debug.toString model.highlight |> text |> size 3 |> selectable |> filled black |> move (0,-30)
   , group [
     roundedRect 40 10 6 |> filled (rgba 150 133 182 0.5) |> move ( -70, -60 )
     , text "Hint" |> size 7 |> filled black |> move (-75, -62)
@@ -87,9 +87,9 @@ type Clickable = CConst
                | CNotHere
                | Hint
 
-example1 = Plus (Mult (Const 7) (Var "x")) (Var "y")
-example12 = Plus (Var "7x") (Var "y" )
-example13 = Var "7x + y"
+example1 = Mult (Subt (Const 8) (Const 5)) (Const 3)
+example12 = Mult (Const 3) (Const 3)
+example13 = Const 9
 
 example2 = Subt (Const 20) (Exp (Const 4)(Const 2))
 example22 = Subt (Const 20) (Const 16)
@@ -106,11 +106,28 @@ example42 = Div (Const 24) (Subt (Const 8) (Const 4))
 example43 = Div (Const 24) (Const 4)
 example44 = Const 6
 
+exampleDec = Subt (Const 7.8) (Plus (Const 2.5) (Const 1.0))
+exampleDec2 = Subt (Const 7.8) (Const 3.5)
+exampleDec3 = Const 4.3
+
+exampleFrac = Plus (Subt (Div (Const 4) (Const 8)) (Div (Const 15) (Const 45))) (Div (Const 2) (Const 3))
+exampleFrac2 = Plus (Subt (Var " 1/2 ") (Div (Const 15) (Const 45))) (Div (Const 2) (Const 3))
+exampleFrac3 = Plus (Subt (Var " 1/2 ") (Var " 1/3 ")) (Div (Const 2) (Const 3))
+exampleFrac4 = Plus (Subt (Var " 1/2 ") (Var " 1/3 ")) (Var " 2/3 ")
+exampleFrac5 = Plus (Var " 1/6") (Var " 2/3")
+exampleFrac6= Var "5/6"
+
+exampleVar = Plus (Mult (Const 7) (Var "x")) (Var "y")
+exampleVar2 = Plus (Var "7x") (Var "y" )
+exampleVar3 = Var "7x + y"
+
+--exampleNInt = Const 4
+
 -- text formatting
 txtFmt stencil = stencil |> size 5 |> fixedwidth
 
 -- width of one character (this is a guess, because it depends on browser)
-charWidth = 8
+charWidth = 9
 
 -- highlight shape
 backlit width colour = roundedRect width 6 4 |> filled colour |> makeTransparent 0.5 |> move (0,1)
@@ -118,7 +135,7 @@ backlit width colour = roundedRect width 6 4 |> filled colour |> makeTransparent
 display : Clickable         -- breadcrumbs to element to highlight
         -> (Expr, Color, Clickable -> Clickable)  -- (expr,breadcrumbs so far)
         -> (Shape Msg,Float) -- return shape, and width of shape
-display highlight (expr0,col, mkClickable) =
+display highlight (expr0, col, mkClickable) =
   case expr0 of
       Const float -> -- probably assume positive
         let
@@ -324,6 +341,7 @@ display highlight (expr0,col, mkClickable) =
 type Msg = Tick Float GetKeyState
          | Tap Clickable
          | SetElement Element
+         | SetState
          | GiveHint
          | SwitchEx
 
@@ -331,8 +349,12 @@ type State = Ex1
            | Ex2
            | Ex3
            | Ex4
+           | ExD
+           | ExF
+           | ExV
+           --| ExNI
 
-type Simplify = Level0 | Level1 | Level2 | Level3 | Done
+type Simplify = Level0 | Level1 | Level2 | Level3 | Level4 | Done
 
 update msg model =
     case msg of
@@ -341,12 +363,13 @@ update msg model =
                 -- Ex1  -> { model | time = t }
                 (Ex1, Level0)  -> 
                     case (model.highlight) of 
-                        (CPlusLeft CMult) -> { model | time = t, expr = example12, simplify = Level1 }
+                        (CMultLeft CSubt) -> { model | time = t, expr = example12, simplify = Level1 }
                         otherwise -> { model | time = t}
                 (Ex1, Level1)  -> 
                     case (model.highlight) of 
-                        (CPlus) -> { model | time = t, expr = example13, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
+                        (CMult) -> { model | time = t, expr = example13, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                         otherwise -> { model | time = t}
+
                 (Ex2, Level0)  -> 
                     case (model.highlight) of 
                         (CSubtRight CExp) -> { model | time = t, expr = example22, simplify = Level1 }
@@ -355,6 +378,7 @@ update msg model =
                     case (model.highlight) of 
                         (CSubt) -> { model | time = t, expr = example23, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1) }
                         otherwise -> { model | time = t}
+
                 (Ex3, Level0) ->
                     case (model.highlight) of
                       (CMultRight (CSubtLeft (CPlusLeft CExp))) -> { model | time = t, expr = example32, simplify = Level1}
@@ -371,6 +395,7 @@ update msg model =
                     case (model.highlight) of
                       (CMult) -> {model | time = t, expr = example35, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                       otherwise -> {model | time = t }
+
                 (Ex4, Level0) ->
                     case (model.highlight) of
                       (CDivRight (CSubtLeft CPlus)) -> {model | time = t, expr = example42, simplify = Level1}
@@ -383,22 +408,72 @@ update msg model =
                     case (model.highlight) of
                       (CDiv) -> {model | time = t, expr = example44, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                       otherwise -> {model | time = t }
-                -- (Ex2,CSubt) -> { model | time = t,
-                --   expr = example23 }
+
+                (ExD, Level0) ->
+                    case (model.highlight) of 
+                      (CSubtRight CPlus) -> {model | time = t, expr = exampleDec2, simplify = Level1 }
+                      otherwise -> {model | time = t }
+                (ExD, Level1) ->
+                    case (model.highlight) of 
+                      (CSubt) -> {model | time = t, expr = exampleDec3, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1) }
+                      otherwise -> {model | time = t }
+
+                (ExF, Level0) ->
+                    case (model.highlight) of 
+                      (CPlusLeft(CSubtLeft CDiv)) -> {model | time = t, expr = exampleFrac2, simplify = Level1 }
+                      otherwise -> {model | time = t }
+                (ExF, Level1) ->
+                    case (model.highlight) of 
+                      (CPlusLeft(CSubtRight CDiv)) -> {model | time = t, expr = exampleFrac3, simplify = Level2 }
+                      otherwise -> {model | time = t }
+                (ExF, Level2) ->
+                    case (model.highlight) of 
+                      (CPlusRight CDiv) -> {model | time = t, expr = exampleFrac4, simplify = Level3 }
+                      otherwise -> {model | time = t }
+                (ExF, Level3) ->
+                    case (model.highlight) of 
+                      (CPlusLeft CSubt) -> {model | time = t, expr = exampleFrac5, simplify = Level4 }
+                      otherwise -> {model | time = t }
+                (ExF, Level4) ->
+                    case (model.highlight) of 
+                      (CPlus) -> {model | time = t, expr = exampleFrac6, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
+                      otherwise -> {model | time = t }
+
+                (ExV, Level0) ->
+                    case (model.highlight) of 
+                      (CPlusLeft CMult) -> {model | time = t, expr = exampleVar2, simplify = Level1 }
+                      otherwise -> {model | time = t }
+                (ExV, Level1) ->
+                    case (model.highlight) of 
+                      (CPlus) -> {model | time = t, expr = exampleVar3, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1) }
+                      otherwise -> {model | time = t }
+
                 otherwise -> { model | time = t }
         Tap clickable ->
           { model | highlight = clickable }
         SetElement element ->
-            { model | element = element }
+            {model | element = element }
+        SetState ->
+            case (model.element) of
+                (Constants) -> { model | state = Ex1, expr = example1 }
+                (Decimals) -> { model | state = ExD, expr = exampleDec }
+                (Fractions) -> { model | state = ExF, expr = exampleFrac }
+                (Variables) -> { model | state = ExV, expr = exampleVar }
+                --(Integers) -> { model | element = element, state = ExNI }
+                otherwise -> { model | state = Ex1 }
         GiveHint ->
           case (model.simplify) of
             (Level0) -> { model | hint = "Look at the innermost brackets!" }
             (Level1) -> 
               case (model.state) of
-                (Ex1) -> { model | hint = "What does the A in BEDMAS stand for?" }
+                (Ex1) -> { model | hint = "What does the S in BEDMAS stand for?" }
                 (Ex2) -> { model | hint = "What does the S in BEDMAS stand for?" }
                 (Ex3) -> { model | hint = "What does the A in BEDMAS stand for?" }
                 (Ex4) -> { model | hint = "What does the S in BEDMAS stand for?" }
+                (ExD) -> {model | hint = "What does the S in BEDMAS stand for?" }
+                (ExF) -> {model | hint = "What does the S in BEDMAS stand for?" }
+                (ExV) -> {model | hint = "What does the S in BEDMAS stand for?" }
+                --(ExNI) -> {model | hint = "What does the S in BEDMAS stand for?" }
             (Level2) -> 
               case (model.state) of
                 (Ex3) -> { model | hint = "What does the S in BEDMAS stand for?" }
@@ -411,11 +486,11 @@ update msg model =
             otherwise -> { model | hint = "" }
         SwitchEx ->
           case (model.state) of
-            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
-            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
-            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
-            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
-            -- otherwise -> { model | state = model.state}
+            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+            otherwise -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants}
 
 type alias Model =
     { time : Float
@@ -473,11 +548,12 @@ expressionOptions model =
                         |> size 3
                         |> filled black
                         |> notifyTap (SetElement el)
+                        |> notifyTap SetState
                         |> move ( 0, -4 )
                         |> time1 model el 30 4
                         |> move ( 0, y )
                 )
-                [ Constants, Decimals, Fractions, Variables, Integers ]
+                [ Constants, Decimals, Fractions, Variables]
         (List.map (\x -> -4 * Basics.toFloat x) (List.range 0 20))
         ]
 
