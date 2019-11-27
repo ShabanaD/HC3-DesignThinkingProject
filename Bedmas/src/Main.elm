@@ -456,9 +456,9 @@ update msg model =
         SetState ->
             case (model.element) of
                 (Constants) -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
-                (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants  }
-                (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
-                (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+                (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Decimals  }
+                (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Fractions }
+                (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Variables }
                 --(Integers) -> { model | element = element, state = ExNI }
                 otherwise -> { model | state = Ex1 }
         GiveHint ->
