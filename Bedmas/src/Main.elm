@@ -150,7 +150,7 @@ display highlight (expr0, col, mkClickable) =
                 else identity
               )
                 [text (String.fromFloat float) |> txtFmt |> centered |> filled black ]
-            , width
+            , 1.1*width
             )
 
       Plus expr expr2 ->
