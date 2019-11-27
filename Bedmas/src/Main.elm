@@ -37,6 +37,7 @@ Success!
 
 ➜  ExprTemplate git:(master) ✗ open index.html
 -}
+
 myShapes model =
   [ titleText |> move (-20, -20)
   , text "Which operation goes first?" |> txtFmt |> centered |> filled black |> move (0, 20)
@@ -49,7 +50,7 @@ myShapes model =
     ] |> move (20, 20) |> notifyTap (GiveHint)
   , text (model.hint) |> size 6 |> filled black |> move (-45, -30)
   , group [
-    roundedRect 70 10 6 |> filled (rgba 150 133 182 0.5) |> move ( 20, -60 )
+    roundedRect 70 10 6 |> filled model.btnColor |> move ( 20, -60 )
     , text "New Equation" |> size 7 |> filled black |> move (3, -62)
     ] |> move (20, 20) |> notifyTap (SwitchEx)
   , text (model.hint) |> size 6 |> filled black |> move (-45, -30) ]
@@ -344,7 +345,7 @@ update msg model =
                         otherwise -> { model | time = t}
                 (Ex1, Level1)  -> 
                     case (model.highlight) of 
-                        (CPlus) -> { model | time = t, expr = example13, simplify = Done}
+                        (CPlus) -> { model | time = t, expr = example13, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                         otherwise -> { model | time = t}
                 (Ex2, Level0)  -> 
                     case (model.highlight) of 
@@ -352,7 +353,7 @@ update msg model =
                         otherwise -> { model | time = t}
                 (Ex2, Level1) ->
                     case (model.highlight) of 
-                        (CSubt) -> { model | time = t, expr = example23, simplify = Done }
+                        (CSubt) -> { model | time = t, expr = example23, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1) }
                         otherwise -> { model | time = t}
                 (Ex3, Level0) ->
                     case (model.highlight) of
@@ -368,7 +369,7 @@ update msg model =
                       otherwise -> {model | time = t}
                 (Ex3, Level3) ->
                     case (model.highlight) of
-                      (CMult) -> {model | time = t, expr = example35, simplify = Done}
+                      (CMult) -> {model | time = t, expr = example35, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                       otherwise -> {model | time = t }
                 (Ex4, Level0) ->
                     case (model.highlight) of
@@ -380,7 +381,7 @@ update msg model =
                       otherwise -> {model | time = t }
                 (Ex4, Level2) ->
                     case (model.highlight) of
-                      (CDiv) -> {model | time = t, expr = example44, simplify = Done}
+                      (CDiv) -> {model | time = t, expr = example44, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                       otherwise -> {model | time = t }
                 -- (Ex2,CSubt) -> { model | time = t,
                 --   expr = example23 }
@@ -396,11 +397,12 @@ update msg model =
               case (model.state) of
                 (Ex1) -> { model | hint = "What does the A in BEDMAS stand for?" }
                 (Ex2) -> { model | hint = "What does the S in BEDMAS stand for?" }
-                (Ex3) -> { model | hint = "What does the M in BEDMAS stand for?" }
-                (Ex4) -> { model | hint = "What does the _ in BEDMAS stand for?" }
+                (Ex3) -> { model | hint = "What does the A in BEDMAS stand for?" }
+                (Ex4) -> { model | hint = "What does the S in BEDMAS stand for?" }
             (Level2) -> 
               case (model.state) of
                 (Ex3) -> { model | hint = "What does the S in BEDMAS stand for?" }
+                (Ex4) -> { model | hint = "What does the D in BEDMAS stand for?" }
                 otherwise -> { model | hint = "" }
             (Level3) -> 
               case (model.state) of
@@ -409,10 +411,10 @@ update msg model =
             otherwise -> { model | hint = "" }
         SwitchEx ->
           case (model.state) of
-            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0}
-            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0}
-            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0}
-            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0}
+            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint=""}
+            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint=""}
+            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint=""}
+            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint=""}
             -- otherwise -> { model | state = model.state}
 
 type alias Model =
@@ -423,6 +425,7 @@ type alias Model =
     , highlight : Clickable
     , element : Element
     , hint : String
+    , btnColor : Color
     }
 
 init : Model
@@ -433,6 +436,7 @@ init = { time = 0
        , highlight = CNotHere
        , element = Constants
        , hint = ""
+       , btnColor = (rgba 150 133 182 0.5)
        }
 
 titleText = 
