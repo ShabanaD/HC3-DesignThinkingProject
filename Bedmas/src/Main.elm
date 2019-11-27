@@ -455,39 +455,49 @@ update msg model =
             {model | element = element }
         SetState ->
             case (model.element) of
-                (Constants) -> { model | state = Ex1, expr = example1 }
-                (Decimals) -> { model | state = ExD, expr = exampleDec }
-                (Fractions) -> { model | state = ExF, expr = exampleFrac }
-                (Variables) -> { model | state = ExV, expr = exampleVar }
+                (Constants) -> { model | state = Ex1, expr = example1, simplify = Level0 }
+                (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0  }
+                (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0  }
+                (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0 }
                 --(Integers) -> { model | element = element, state = ExNI }
                 otherwise -> { model | state = Ex1 }
         GiveHint ->
           case (model.simplify) of
             (Level0) ->
               case (model.state) of
-                (Ex1) -> { model | hint = "In BEDMAS, the M goes before A" }
+                (Ex1) -> { model | hint = "Look at the brackets" }
                 (Ex2) -> { model | hint = "What goes first? E or S?" }
                 (Ex3) -> { model | hint = "What does the E in BEDMAS stand for?" }
                 (Ex4) -> { model | hint = "Look at the innermost brackets" }
-                otherwise -> { model | hint = ""}
+                (ExD) -> {model | hint = "Look at the innermost brackets" }
+                (ExF) -> {model | hint = "What does the D in BEDMAS stand for?" }
+                (ExV) -> {model | hint = "In BEDMAS, the M goes before A" }
+                --otherwise -> { model | hint = ""}
             (Level1) -> 
               case (model.state) of
-                (Ex1) -> { model | hint = "What does the S in BEDMAS stand for?" }
+                (Ex1) -> { model | hint = "What does the M in BEDMAS stand for?" }
                 (Ex2) -> { model | hint = "What does the S in BEDMAS stand for?" }
                 (Ex3) -> { model | hint = "What does the A in BEDMAS stand for?" }
                 (Ex4) -> { model | hint = "What does the S in BEDMAS stand for?" }
                 (ExD) -> {model | hint = "What does the S in BEDMAS stand for?" }
-                (ExF) -> {model | hint = "What does the S in BEDMAS stand for?" }
-                (ExV) -> {model | hint = "What does the S in BEDMAS stand for?" }
+                (ExF) -> {model | hint = "What does the D in BEDMAS stand for?" }
+                (ExV) -> {model | hint = "What does the A in BEDMAS stand for?" }
                 --(ExNI) -> {model | hint = "What does the S in BEDMAS stand for?" }
             (Level2) -> 
               case (model.state) of
                 (Ex3) -> { model | hint = "What does the S in BEDMAS stand for?" }
                 (Ex4) -> { model | hint = "What does the D in BEDMAS stand for?" }
+                (ExF) -> { model | hint = "What does the D in BEDMAS stand for?" }
                 otherwise -> { model | hint = "" }
             (Level3) -> 
               case (model.state) of
                 (Ex3) -> { model | hint = "What does the M in BEDMAS stand for?" }
+                (Ex4) -> { model | hint = "What does the D in BEDMAS stand for?" }
+                (ExF) -> { model | hint = "What does the S in BEDMAS stand for?" }
+                otherwise -> { model | hint = "" }
+            (Level4) -> 
+              case (model.state) of
+                (ExF) -> { model | hint = "What does the A in BEDMAS stand for?" }
                 otherwise -> { model | hint = "" }
             otherwise -> { model | hint = "" }
         SwitchEx ->
@@ -544,7 +554,7 @@ exampleBox =
 
 expressionOptions model =
     group 
-        [ text "Modify the Expression" |> fixedwidth |> size 4 |> bold |> filled black 
+        [ text "Options" |> fixedwidth |> size 4 |> bold |> filled black 
         , group <|
             List.map2
                 (\el y ->
