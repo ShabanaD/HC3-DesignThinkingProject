@@ -43,7 +43,7 @@ myShapes model =
   , text "Which operation goes first?" |> txtFmt |> centered |> filled black |> move (0, 20)
   , exampleBox |> move (-20, 0)
   , expressionOptions model|> move (60, 10)
-  , Debug.toString model.highlight |> text |> size 3 |> selectable |> filled black |> move (0,-30)
+  --, Debug.toString model.highlight |> text |> size 3 |> selectable |> filled black |> move (0,-30)
   , group [
     roundedRect 40 10 6 |> filled (rgba 150 133 182 0.5) |> move ( -70, -60 )
     , text "Hint" |> size 7 |> filled black |> move (-75, -62)
@@ -455,10 +455,10 @@ update msg model =
             {model | element = element }
         SetState ->
             case (model.element) of
-                (Constants) -> { model | state = Ex1, expr = example1, simplify = Level0 }
-                (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0  }
-                (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0  }
-                (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0 }
+                (Constants) -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+                (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants  }
+                (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
+                (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
                 --(Integers) -> { model | element = element, state = ExNI }
                 otherwise -> { model | state = Ex1 }
         GiveHint ->
