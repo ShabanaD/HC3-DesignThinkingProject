@@ -8565,7 +8565,34 @@ var $author$project$Main$example1 = A2(
 		$author$project$Main$Const(7),
 		$author$project$Main$Var('x')),
 	$author$project$Main$Var('y'));
-var $author$project$Main$init = {expr: $author$project$Main$example1, highlight: $author$project$Main$CNotHere, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex1, time: 0};
+var $elm$core$Basics$clamp = F3(
+	function (low, high, number) {
+		return (_Utils_cmp(number, low) < 0) ? low : ((_Utils_cmp(number, high) > 0) ? high : number);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$ssa = function (n) {
+	return A3($elm$core$Basics$clamp, 0, 1, n);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$ssc = function (n) {
+	return A3($elm$core$Basics$clamp, 0, 255, n);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$rgba = F4(
+	function (r, g, b, a) {
+		return A4(
+			$MacCASOutreach$graphicsvg$GraphicSVG$RGBA,
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(r),
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(g),
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(b),
+			$MacCASOutreach$graphicsvg$GraphicSVG$ssa(a));
+	});
+var $author$project$Main$init = {
+	btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
+	expr: $author$project$Main$example1,
+	highlight: $author$project$Main$CNotHere,
+	hint: '',
+	simplify: $author$project$Main$Level0,
+	state: $author$project$Main$Ex1,
+	time: 0
+};
 var $author$project$Main$Done = {$: 'Done'};
 var $author$project$Main$Ex2 = {$: 'Ex2'};
 var $author$project$Main$Ex3 = {$: 'Ex3'};
@@ -8692,7 +8719,13 @@ var $author$project$Main$update = F2(
 									if (_v8.$ === 'CPlus') {
 										return _Utils_update(
 											model,
-											{expr: $author$project$Main$example13, simplify: $author$project$Main$Done, time: t});
+											{
+												btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 1),
+												expr: $author$project$Main$example13,
+												hint: 'Good Job!',
+												simplify: $author$project$Main$Done,
+												time: t
+											});
 									} else {
 										var otherwise = _v8;
 										return _Utils_update(
@@ -8726,7 +8759,13 @@ var $author$project$Main$update = F2(
 									if (_v15.$ === 'CSubt') {
 										return _Utils_update(
 											model,
-											{expr: $author$project$Main$example23, simplify: $author$project$Main$Done, time: t});
+											{
+												btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 1),
+												expr: $author$project$Main$example23,
+												hint: 'Good Job!',
+												simplify: $author$project$Main$Done,
+												time: t
+											});
 									} else {
 										var otherwise = _v15;
 										return _Utils_update(
@@ -8790,7 +8829,13 @@ var $author$project$Main$update = F2(
 									if (_v30.$ === 'CMult') {
 										return _Utils_update(
 											model,
-											{expr: $author$project$Main$example35, simplify: $author$project$Main$Done, time: t});
+											{
+												btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 1),
+												expr: $author$project$Main$example35,
+												hint: 'Good Job!',
+												simplify: $author$project$Main$Done,
+												time: t
+											});
 									} else {
 										var otherwise = _v30;
 										return _Utils_update(
@@ -8839,7 +8884,13 @@ var $author$project$Main$update = F2(
 									if (_v41.$ === 'CDiv') {
 										return _Utils_update(
 											model,
-											{expr: $author$project$Main$example44, simplify: $author$project$Main$Done, time: t});
+											{
+												btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 1),
+												expr: $author$project$Main$example44,
+												hint: 'Good Job!',
+												simplify: $author$project$Main$Done,
+												time: t
+											});
 									} else {
 										var otherwise = _v41;
 										return _Utils_update(
@@ -8881,23 +8932,28 @@ var $author$project$Main$update = F2(
 							case 'Ex3':
 								return _Utils_update(
 									model,
-									{hint: 'What does the M in BEDMAS stand for?'});
+									{hint: 'What does the A in BEDMAS stand for?'});
 							default:
 								return _Utils_update(
 									model,
-									{hint: 'What does the _ in BEDMAS stand for?'});
+									{hint: 'What does the S in BEDMAS stand for?'});
 						}
 					case 'Level2':
 						var _v44 = model.state;
-						if (_v44.$ === 'Ex3') {
-							return _Utils_update(
-								model,
-								{hint: 'What does the S in BEDMAS stand for?'});
-						} else {
-							var otherwise = _v44;
-							return _Utils_update(
-								model,
-								{hint: ''});
+						switch (_v44.$) {
+							case 'Ex3':
+								return _Utils_update(
+									model,
+									{hint: 'What does the S in BEDMAS stand for?'});
+							case 'Ex4':
+								return _Utils_update(
+									model,
+									{hint: 'What does the D in BEDMAS stand for?'});
+							default:
+								var otherwise = _v44;
+								return _Utils_update(
+									model,
+									{hint: ''});
 						}
 					case 'Level3':
 						var _v45 = model.state;
@@ -8912,37 +8968,30 @@ var $author$project$Main$update = F2(
 								{hint: ''});
 						}
 					default:
-						var _v46 = model.state;
-						if (_v46.$ === 'Ex3') {
-							return _Utils_update(
-								model,
-								{hint: 'Good job!!'});
-						} else {
-							var otherwise = _v46;
-							return _Utils_update(
-								model,
-								{hint: ''});
-						}
+						var otherwise = _v42;
+						return _Utils_update(
+							model,
+							{hint: ''});
 				}
 			default:
-				var _v47 = model.state;
-				switch (_v47.$) {
+				var _v46 = model.state;
+				switch (_v46.$) {
 					case 'Ex1':
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example2, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex2});
+							{expr: $author$project$Main$example2, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex2});
 					case 'Ex2':
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example4, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex4});
+							{expr: $author$project$Main$example4, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex4});
 					case 'Ex3':
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example1, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex1});
+							{expr: $author$project$Main$example1, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex1});
 					default:
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example3, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex3});
+							{expr: $author$project$Main$example3, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex3});
 				}
 		}
 	});
@@ -9331,25 +9380,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap = F2(
 		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Tap, msg, shape);
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$orange = A4($MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 245, 121, 0, 1);
-var $elm$core$Basics$clamp = F3(
-	function (low, high, number) {
-		return (_Utils_cmp(number, low) < 0) ? low : ((_Utils_cmp(number, high) > 0) ? high : number);
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$ssa = function (n) {
-	return A3($elm$core$Basics$clamp, 0, 1, n);
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$ssc = function (n) {
-	return A3($elm$core$Basics$clamp, 0, 255, n);
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$rgba = F4(
-	function (r, g, b, a) {
-		return A4(
-			$MacCASOutreach$graphicsvg$GraphicSVG$RGBA,
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(r),
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(g),
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(b),
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssa(a));
-	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$AlignLeft = {$: 'AlignLeft'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$Serif = {$: 'Serif'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$text = function (str) {
@@ -10504,7 +10534,7 @@ var $author$project$Main$myShapes = function (model) {
 							_Utils_Tuple2(20, -60),
 							A2(
 								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
+								model.btnColor,
 								A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 70, 10, 6))),
 							A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
