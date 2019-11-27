@@ -231,16 +231,16 @@ display highlight (expr0,col, mkClickable) =
         in
           ( group ( hl ++
             [
-              text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
-            , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
+              -- text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
+            left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
             , text "*" |> txtFmt |> centered |> filled black
             , circle 3 |> filled (rgba 52 101 164 0.3) |> move (0,1) |> notifyTap (Tap <| mkClickable CMult)
             , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
-            , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
+            -- , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
             -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
             ]
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
-          , 1*charWidth + leftWidth + rightWidth )
+          , 1*charWidth + 0.8*leftWidth + 0.8*rightWidth )
 
       Div expr expr2 ->
         let
@@ -301,16 +301,16 @@ display highlight (expr0,col, mkClickable) =
         in
           ( group ( hl ++
             [
-              text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
-            , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
+              -- text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
+            left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
             , text "^" |> txtFmt |> centered |> filled black
             , circle 3 |> filled (rgba 255 105 80 0.3) |> move (0,1) |> notifyTap (Tap <| mkClickable CExp)
             , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
-            , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
+            -- , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
             -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
             ]
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
-          , 1*charWidth + leftWidth + rightWidth )
+          , 1*charWidth + 0.8*leftWidth + 0.8*rightWidth )
 
       Var string ->
         ( group <|  ( if highlight == CVar
@@ -390,7 +390,12 @@ update msg model =
         --         state1 -> {model | expr = }
         GiveHint ->
           case (model.simplify) of
-            (Level0) -> { model | hint = "Look at the innermost brackets!" }
+            (Level0) ->
+              case (model.state) of
+                (Ex1) -> { model | hint = "In BEDMAS, the M goes before A" }
+                (Ex2) -> { model | hint = "What goes first? E or S?" }
+                (Ex3) -> { model | hint = "What does the E in BEDMAS stand for?" }
+                (Ex4) -> { model | hint = "Look at the innermost brackets" }
             (Level1) -> 
               case (model.state) of
                 (Ex1) -> { model | hint = "What does the A in BEDMAS stand for?" }
@@ -409,10 +414,10 @@ update msg model =
             otherwise -> { model | hint = "" }
         SwitchEx ->
           case (model.state) of
-            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint=""}
-            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint=""}
-            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint=""}
-            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint=""}
+            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
+            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
+            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
+            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
             -- otherwise -> { model | state = model.state}
 
 type alias Model =

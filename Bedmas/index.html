@@ -8915,12 +8915,28 @@ var $author$project$Main$update = F2(
 				var _v42 = model.simplify;
 				switch (_v42.$) {
 					case 'Level0':
-						return _Utils_update(
-							model,
-							{hint: 'Look at the innermost brackets!'});
-					case 'Level1':
 						var _v43 = model.state;
 						switch (_v43.$) {
+							case 'Ex1':
+								return _Utils_update(
+									model,
+									{hint: 'In BEDMAS, the M goes before A'});
+							case 'Ex2':
+								return _Utils_update(
+									model,
+									{hint: 'What goes first? E or S?'});
+							case 'Ex3':
+								return _Utils_update(
+									model,
+									{hint: 'What does the E in BEDMAS stand for?'});
+							default:
+								return _Utils_update(
+									model,
+									{hint: 'Look at the innermost brackets'});
+						}
+					case 'Level1':
+						var _v44 = model.state;
+						switch (_v44.$) {
 							case 'Ex1':
 								return _Utils_update(
 									model,
@@ -8939,8 +8955,8 @@ var $author$project$Main$update = F2(
 									{hint: 'What does the S in BEDMAS stand for?'});
 						}
 					case 'Level2':
-						var _v44 = model.state;
-						switch (_v44.$) {
+						var _v45 = model.state;
+						switch (_v45.$) {
 							case 'Ex3':
 								return _Utils_update(
 									model,
@@ -8950,19 +8966,19 @@ var $author$project$Main$update = F2(
 									model,
 									{hint: 'What does the D in BEDMAS stand for?'});
 							default:
-								var otherwise = _v44;
+								var otherwise = _v45;
 								return _Utils_update(
 									model,
 									{hint: ''});
 						}
 					case 'Level3':
-						var _v45 = model.state;
-						if (_v45.$ === 'Ex3') {
+						var _v46 = model.state;
+						if (_v46.$ === 'Ex3') {
 							return _Utils_update(
 								model,
 								{hint: 'What does the M in BEDMAS stand for?'});
 						} else {
-							var otherwise = _v45;
+							var otherwise = _v46;
 							return _Utils_update(
 								model,
 								{hint: ''});
@@ -8974,24 +8990,48 @@ var $author$project$Main$update = F2(
 							{hint: ''});
 				}
 			default:
-				var _v46 = model.state;
-				switch (_v46.$) {
+				var _v47 = model.state;
+				switch (_v47.$) {
 					case 'Ex1':
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example2, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex2});
+							{
+								btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
+								expr: $author$project$Main$example2,
+								hint: '',
+								simplify: $author$project$Main$Level0,
+								state: $author$project$Main$Ex2
+							});
 					case 'Ex2':
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example4, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex4});
+							{
+								btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
+								expr: $author$project$Main$example4,
+								hint: '',
+								simplify: $author$project$Main$Level0,
+								state: $author$project$Main$Ex4
+							});
 					case 'Ex3':
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example1, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex1});
+							{
+								btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
+								expr: $author$project$Main$example1,
+								hint: '',
+								simplify: $author$project$Main$Level0,
+								state: $author$project$Main$Ex1
+							});
 					default:
 						return _Utils_update(
 							model,
-							{expr: $author$project$Main$example3, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex3});
+							{
+								btnColor: A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
+								expr: $author$project$Main$example3,
+								hint: '',
+								simplify: $author$project$Main$Level0,
+								state: $author$project$Main$Ex3
+							});
 				}
 		}
 	});
@@ -9714,15 +9754,6 @@ var $author$project$Main$display = F2(
 									[
 										A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(((-0.125) * $author$project$Main$charWidth) - leftWidth, 0),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$black,
-											$MacCASOutreach$graphicsvg$GraphicSVG$centered(
-												$author$project$Main$txtFmt(
-													$MacCASOutreach$graphicsvg$GraphicSVG$text('('))))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
 										_Utils_Tuple2((-0.5) * ((0.25 * $author$project$Main$charWidth) + leftWidth), 0),
 										left),
 										A2(
@@ -9745,18 +9776,9 @@ var $author$project$Main$display = F2(
 										A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$move,
 										_Utils_Tuple2(0.5 * ((0.25 * $author$project$Main$charWidth) + rightWidth), 0),
-										right),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2((0.125 * $author$project$Main$charWidth) + rightWidth, 0),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$black,
-											$MacCASOutreach$graphicsvg$GraphicSVG$centered(
-												$author$project$Main$txtFmt(
-													$MacCASOutreach$graphicsvg$GraphicSVG$text(')')))))
+										right)
 									])))),
-					((1 * $author$project$Main$charWidth) + leftWidth) + rightWidth);
+					((1 * $author$project$Main$charWidth) + (0.8 * leftWidth)) + (0.8 * rightWidth));
 			case 'Div':
 				var expr = expr0.a;
 				var expr2 = expr0.b;
@@ -9912,15 +9934,6 @@ var $author$project$Main$display = F2(
 									[
 										A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2(((-0.125) * $author$project$Main$charWidth) - leftWidth, 0),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$black,
-											$MacCASOutreach$graphicsvg$GraphicSVG$centered(
-												$author$project$Main$txtFmt(
-													$MacCASOutreach$graphicsvg$GraphicSVG$text('('))))),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
 										_Utils_Tuple2((-0.5) * ((0.25 * $author$project$Main$charWidth) + leftWidth), 0),
 										left),
 										A2(
@@ -9943,18 +9956,9 @@ var $author$project$Main$display = F2(
 										A2(
 										$MacCASOutreach$graphicsvg$GraphicSVG$move,
 										_Utils_Tuple2(0.5 * ((0.25 * $author$project$Main$charWidth) + rightWidth), 0),
-										right),
-										A2(
-										$MacCASOutreach$graphicsvg$GraphicSVG$move,
-										_Utils_Tuple2((0.125 * $author$project$Main$charWidth) + rightWidth, 0),
-										A2(
-											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-											$MacCASOutreach$graphicsvg$GraphicSVG$black,
-											$MacCASOutreach$graphicsvg$GraphicSVG$centered(
-												$author$project$Main$txtFmt(
-													$MacCASOutreach$graphicsvg$GraphicSVG$text(')')))))
+										right)
 									])))),
-					((1 * $author$project$Main$charWidth) + leftWidth) + rightWidth);
+					((1 * $author$project$Main$charWidth) + (0.8 * leftWidth)) + (0.8 * rightWidth));
 			default:
 				var string = expr0.a;
 				return _Utils_Tuple2(
