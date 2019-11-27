@@ -411,10 +411,10 @@ update msg model =
             otherwise -> { model | hint = "" }
         SwitchEx ->
           case (model.state) of
-            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint=""}
-            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint=""}
-            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint=""}
-            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint=""}
+            (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
+            (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
+            (Ex3) -> { model | state = Ex1, expr = example1, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
+            (Ex4) -> { model | state = Ex3, expr = example3, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5)}
             -- otherwise -> { model | state = model.state}
 
 type alias Model =
@@ -463,7 +463,7 @@ exampleBox =
 
 expressionOptions model =
     group 
-        [ text "Modify the Expression" |> fixedwidth |> size 4 |> filled black 
+        [ text "Modify the Expression" |> fixedwidth |> size 4 |> bold |> filled black 
         , group <|
             List.map2
                 (\el y ->
