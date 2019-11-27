@@ -8542,27 +8542,11 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$EllieApp$gameApp = F2(
 			});
 	});
 var $author$project$Main$CNotHere = {$: 'CNotHere'};
-var $author$project$Main$Ex2 = {$: 'Ex2'};
+var $author$project$Main$Ex1 = {$: 'Ex1'};
+var $author$project$Main$Level0 = {$: 'Level0'};
 var $author$project$Main$Const = function (a) {
 	return {$: 'Const', a: a};
 };
-var $author$project$Main$Exp = F2(
-	function (a, b) {
-		return {$: 'Exp', a: a, b: b};
-	});
-var $author$project$Main$Subt = F2(
-	function (a, b) {
-		return {$: 'Subt', a: a, b: b};
-	});
-var $author$project$Main$example2 = A2(
-	$author$project$Main$Subt,
-	$author$project$Main$Const(20),
-	A2(
-		$author$project$Main$Exp,
-		$author$project$Main$Const(4),
-		$author$project$Main$Const(2)));
-var $author$project$Main$init = {expr: $author$project$Main$example2, highlight: $author$project$Main$CNotHere, hint: '', state: $author$project$Main$Ex2, time: 0};
-var $author$project$Main$Ex1 = {$: 'Ex1'};
 var $author$project$Main$Mult = F2(
 	function (a, b) {
 		return {$: 'Mult', a: a, b: b};
@@ -8581,72 +8565,384 @@ var $author$project$Main$example1 = A2(
 		$author$project$Main$Const(7),
 		$author$project$Main$Var('x')),
 	$author$project$Main$Var('y'));
+var $author$project$Main$init = {expr: $author$project$Main$example1, highlight: $author$project$Main$CNotHere, hint: '', simplify: $author$project$Main$Level0, state: $author$project$Main$Ex1, time: 0};
+var $author$project$Main$Done = {$: 'Done'};
+var $author$project$Main$Ex2 = {$: 'Ex2'};
+var $author$project$Main$Ex3 = {$: 'Ex3'};
+var $author$project$Main$Ex4 = {$: 'Ex4'};
+var $author$project$Main$Level1 = {$: 'Level1'};
+var $author$project$Main$Level2 = {$: 'Level2'};
+var $author$project$Main$Level3 = {$: 'Level3'};
+var $author$project$Main$example12 = A2(
+	$author$project$Main$Plus,
+	$author$project$Main$Var('7x'),
+	$author$project$Main$Var('y'));
+var $author$project$Main$example13 = $author$project$Main$Var('7x + y');
+var $author$project$Main$Exp = F2(
+	function (a, b) {
+		return {$: 'Exp', a: a, b: b};
+	});
+var $author$project$Main$Subt = F2(
+	function (a, b) {
+		return {$: 'Subt', a: a, b: b};
+	});
+var $author$project$Main$example2 = A2(
+	$author$project$Main$Subt,
+	$author$project$Main$Const(20),
+	A2(
+		$author$project$Main$Exp,
+		$author$project$Main$Const(4),
+		$author$project$Main$Const(2)));
 var $author$project$Main$example22 = A2(
 	$author$project$Main$Subt,
 	$author$project$Main$Const(20),
 	$author$project$Main$Const(16));
+var $author$project$Main$example23 = $author$project$Main$Const(4);
+var $author$project$Main$example3 = A2(
+	$author$project$Main$Mult,
+	$author$project$Main$Const(3),
+	A2(
+		$author$project$Main$Subt,
+		A2(
+			$author$project$Main$Plus,
+			A2(
+				$author$project$Main$Exp,
+				$author$project$Main$Const(2),
+				$author$project$Main$Const(2)),
+			$author$project$Main$Const(5)),
+		$author$project$Main$Const(6)));
+var $author$project$Main$example32 = A2(
+	$author$project$Main$Mult,
+	$author$project$Main$Const(3),
+	A2(
+		$author$project$Main$Subt,
+		A2(
+			$author$project$Main$Plus,
+			$author$project$Main$Const(4),
+			$author$project$Main$Const(5)),
+		$author$project$Main$Const(6)));
+var $author$project$Main$example33 = A2(
+	$author$project$Main$Mult,
+	$author$project$Main$Const(3),
+	A2(
+		$author$project$Main$Subt,
+		$author$project$Main$Const(9),
+		$author$project$Main$Const(6)));
+var $author$project$Main$example34 = A2(
+	$author$project$Main$Mult,
+	$author$project$Main$Const(3),
+	$author$project$Main$Const(3));
+var $author$project$Main$example35 = $author$project$Main$Const(9);
+var $author$project$Main$Div = F2(
+	function (a, b) {
+		return {$: 'Div', a: a, b: b};
+	});
+var $author$project$Main$example4 = A2(
+	$author$project$Main$Div,
+	$author$project$Main$Const(24),
+	A2(
+		$author$project$Main$Subt,
+		A2(
+			$author$project$Main$Plus,
+			$author$project$Main$Const(5),
+			$author$project$Main$Const(3)),
+		$author$project$Main$Const(4)));
+var $author$project$Main$example42 = A2(
+	$author$project$Main$Div,
+	$author$project$Main$Const(24),
+	A2(
+		$author$project$Main$Subt,
+		$author$project$Main$Const(8),
+		$author$project$Main$Const(4)));
+var $author$project$Main$example43 = A2(
+	$author$project$Main$Div,
+	$author$project$Main$Const(24),
+	$author$project$Main$Const(4));
+var $author$project$Main$example44 = $author$project$Main$Const(6);
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'Tick':
 				var t = msg.a;
-				var _v1 = _Utils_Tuple2(model.state, model.highlight);
-				if (((_v1.a.$ === 'Ex2') && (_v1.b.$ === 'CSubtRight')) && (_v1.b.a.$ === 'CExp')) {
-					var _v2 = _v1.a;
-					var _v3 = _v1.b.a;
-					return _Utils_update(
-						model,
-						{expr: $author$project$Main$example22, time: t});
-				} else {
-					var otherwise = _v1;
-					return _Utils_update(
-						model,
-						{time: t});
+				var _v1 = _Utils_Tuple2(model.state, model.simplify);
+				_v1$11:
+				while (true) {
+					switch (_v1.a.$) {
+						case 'Ex1':
+							switch (_v1.b.$) {
+								case 'Level0':
+									var _v2 = _v1.a;
+									var _v3 = _v1.b;
+									var _v4 = model.highlight;
+									if ((_v4.$ === 'CPlusLeft') && (_v4.a.$ === 'CMult')) {
+										var _v5 = _v4.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example12, simplify: $author$project$Main$Level1, time: t});
+									} else {
+										var otherwise = _v4;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level1':
+									var _v6 = _v1.a;
+									var _v7 = _v1.b;
+									var _v8 = model.highlight;
+									if (_v8.$ === 'CPlus') {
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example13, simplify: $author$project$Main$Done, time: t});
+									} else {
+										var otherwise = _v8;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								default:
+									break _v1$11;
+							}
+						case 'Ex2':
+							switch (_v1.b.$) {
+								case 'Level0':
+									var _v9 = _v1.a;
+									var _v10 = _v1.b;
+									var _v11 = model.highlight;
+									if ((_v11.$ === 'CSubtRight') && (_v11.a.$ === 'CExp')) {
+										var _v12 = _v11.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example22, simplify: $author$project$Main$Level1, time: t});
+									} else {
+										var otherwise = _v11;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level1':
+									var _v13 = _v1.a;
+									var _v14 = _v1.b;
+									var _v15 = model.highlight;
+									if (_v15.$ === 'CSubt') {
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example23, simplify: $author$project$Main$Done, time: t});
+									} else {
+										var otherwise = _v15;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								default:
+									break _v1$11;
+							}
+						case 'Ex3':
+							switch (_v1.b.$) {
+								case 'Level0':
+									var _v16 = _v1.a;
+									var _v17 = _v1.b;
+									var _v18 = model.highlight;
+									if ((((_v18.$ === 'CMultRight') && (_v18.a.$ === 'CSubtLeft')) && (_v18.a.a.$ === 'CPlusLeft')) && (_v18.a.a.a.$ === 'CExp')) {
+										var _v19 = _v18.a.a.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example32, simplify: $author$project$Main$Level1, time: t});
+									} else {
+										var otherwise = _v18;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level1':
+									var _v20 = _v1.a;
+									var _v21 = _v1.b;
+									var _v22 = model.highlight;
+									if (((_v22.$ === 'CMultRight') && (_v22.a.$ === 'CSubtLeft')) && (_v22.a.a.$ === 'CPlus')) {
+										var _v23 = _v22.a.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example33, simplify: $author$project$Main$Level2, time: t});
+									} else {
+										var otherwise = _v22;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level2':
+									var _v24 = _v1.a;
+									var _v25 = _v1.b;
+									var _v26 = model.highlight;
+									if ((_v26.$ === 'CMultRight') && (_v26.a.$ === 'CSubt')) {
+										var _v27 = _v26.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example34, simplify: $author$project$Main$Level3, time: t});
+									} else {
+										var otherwise = _v26;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level3':
+									var _v28 = _v1.a;
+									var _v29 = _v1.b;
+									var _v30 = model.highlight;
+									if (_v30.$ === 'CMult') {
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example35, simplify: $author$project$Main$Done, time: t});
+									} else {
+										var otherwise = _v30;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								default:
+									break _v1$11;
+							}
+						default:
+							switch (_v1.b.$) {
+								case 'Level0':
+									var _v31 = _v1.a;
+									var _v32 = _v1.b;
+									var _v33 = model.highlight;
+									if (((_v33.$ === 'CDivRight') && (_v33.a.$ === 'CSubtLeft')) && (_v33.a.a.$ === 'CPlus')) {
+										var _v34 = _v33.a.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example42, simplify: $author$project$Main$Level1, time: t});
+									} else {
+										var otherwise = _v33;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level1':
+									var _v35 = _v1.a;
+									var _v36 = _v1.b;
+									var _v37 = model.highlight;
+									if ((_v37.$ === 'CDivRight') && (_v37.a.$ === 'CSubt')) {
+										var _v38 = _v37.a;
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example43, simplify: $author$project$Main$Level2, time: t});
+									} else {
+										var otherwise = _v37;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								case 'Level2':
+									var _v39 = _v1.a;
+									var _v40 = _v1.b;
+									var _v41 = model.highlight;
+									if (_v41.$ === 'CDiv') {
+										return _Utils_update(
+											model,
+											{expr: $author$project$Main$example44, simplify: $author$project$Main$Done, time: t});
+									} else {
+										var otherwise = _v41;
+										return _Utils_update(
+											model,
+											{time: t});
+									}
+								default:
+									break _v1$11;
+							}
+					}
 				}
+				var otherwise = _v1;
+				return _Utils_update(
+					model,
+					{time: t});
 			case 'Tap':
 				var clickable = msg.a;
 				return _Utils_update(
 					model,
-					{highlight: clickable, hint: ''});
+					{highlight: clickable});
 			case 'GiveHint':
-				var _v4 = _Utils_Tuple2(model.state, model.highlight);
-				_v4$2:
-				while (true) {
-					if (_v4.a.$ === 'Ex2') {
-						switch (_v4.b.$) {
-							case 'CNotHere':
-								var _v5 = _v4.a;
-								var _v6 = _v4.b;
+				var _v42 = model.simplify;
+				switch (_v42.$) {
+					case 'Level0':
+						return _Utils_update(
+							model,
+							{hint: 'Look at the innermost brackets!'});
+					case 'Level1':
+						var _v43 = model.state;
+						switch (_v43.$) {
+							case 'Ex1':
 								return _Utils_update(
 									model,
-									{hint: 'Try clicking on an operation'});
-							case 'CSubt':
-								var _v7 = _v4.a;
-								var _v8 = _v4.b;
+									{hint: 'What does the A in BEDMAS stand for?'});
+							case 'Ex2':
 								return _Utils_update(
 									model,
-									{hint: 'Look inside the brackets :)'});
+									{hint: 'What does the S in BEDMAS stand for?'});
+							case 'Ex3':
+								return _Utils_update(
+									model,
+									{hint: 'What does the M in BEDMAS stand for?'});
 							default:
-								break _v4$2;
+								return _Utils_update(
+									model,
+									{hint: 'What does the _ in BEDMAS stand for?'});
 						}
-					} else {
-						break _v4$2;
-					}
+					case 'Level2':
+						var _v44 = model.state;
+						if (_v44.$ === 'Ex3') {
+							return _Utils_update(
+								model,
+								{hint: 'What does the S in BEDMAS stand for?'});
+						} else {
+							var otherwise = _v44;
+							return _Utils_update(
+								model,
+								{hint: ''});
+						}
+					case 'Level3':
+						var _v45 = model.state;
+						if (_v45.$ === 'Ex3') {
+							return _Utils_update(
+								model,
+								{hint: 'What does the M in BEDMAS stand for?'});
+						} else {
+							var otherwise = _v45;
+							return _Utils_update(
+								model,
+								{hint: ''});
+						}
+					default:
+						var _v46 = model.state;
+						if (_v46.$ === 'Ex3') {
+							return _Utils_update(
+								model,
+								{hint: 'Good job!!'});
+						} else {
+							var otherwise = _v46;
+							return _Utils_update(
+								model,
+								{hint: ''});
+						}
 				}
-				var otherwise = _v4;
-				return _Utils_update(
-					model,
-					{hint: ''});
 			default:
-				var _v9 = model.state;
-				if (_v9.$ === 'Ex2') {
-					return _Utils_update(
-						model,
-						{expr: $author$project$Main$example1, state: $author$project$Main$Ex1});
-				} else {
-					return _Utils_update(
-						model,
-						{expr: $author$project$Main$example2, state: $author$project$Main$Ex2});
+				var _v47 = model.state;
+				switch (_v47.$) {
+					case 'Ex1':
+						return _Utils_update(
+							model,
+							{expr: $author$project$Main$example2, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex2});
+					case 'Ex2':
+						return _Utils_update(
+							model,
+							{expr: $author$project$Main$example4, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex4});
+					case 'Ex3':
+						return _Utils_update(
+							model,
+							{expr: $author$project$Main$example1, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex1});
+					default:
+						return _Utils_update(
+							model,
+							{expr: $author$project$Main$example3, simplify: $author$project$Main$Level0, state: $author$project$Main$Ex3});
 				}
 		}
 	});
@@ -8654,11 +8950,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
-var $author$project$Main$CExp = {$: 'CExp'};
-var $author$project$Main$CSubt = {$: 'CSubt'};
-var $author$project$Main$CSubtRight = function (a) {
-	return {$: 'CSubtRight', a: a};
-};
 var $author$project$Main$GiveHint = {$: 'GiveHint'};
 var $author$project$Main$SwitchEx = {$: 'SwitchEx'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
@@ -8699,6 +8990,7 @@ var $author$project$Main$CDivLeft = function (a) {
 var $author$project$Main$CDivRight = function (a) {
 	return {$: 'CDivRight', a: a};
 };
+var $author$project$Main$CExp = {$: 'CExp'};
 var $author$project$Main$CExpLeft = function (a) {
 	return {$: 'CExpLeft', a: a};
 };
@@ -8719,8 +9011,12 @@ var $author$project$Main$CPlusLeft = function (a) {
 var $author$project$Main$CPlusRight = function (a) {
 	return {$: 'CPlusRight', a: a};
 };
+var $author$project$Main$CSubt = {$: 'CSubt'};
 var $author$project$Main$CSubtLeft = function (a) {
 	return {$: 'CSubtLeft', a: a};
+};
+var $author$project$Main$CSubtRight = function (a) {
+	return {$: 'CSubtRight', a: a};
 };
 var $author$project$Main$CVar = {$: 'CVar'};
 var $author$project$Main$Tap = function (a) {
@@ -10035,18 +10331,8 @@ var $author$project$Main$example = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 						$MacCASOutreach$graphicsvg$GraphicSVG$serif(
 							$MacCASOutreach$graphicsvg$GraphicSVG$text('Example'))))))
 		]));
-var $author$project$Main$example23 = $author$project$Main$Const(4);
-var $MacCASOutreach$graphicsvg$GraphicSVG$green = A4($MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 115, 210, 22, 1);
+var $elm$core$Basics$neq = _Utils_notEqual;
 var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 204, 0, 0, 1);
-var $MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
-	function (r, g, b) {
-		return A4(
-			$MacCASOutreach$graphicsvg$GraphicSVG$RGBA,
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(r),
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(g),
-			$MacCASOutreach$graphicsvg$GraphicSVG$ssc(b),
-			1);
-	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$selectable = function (stencil) {
 	if (stencil.$ === 'Text') {
 		var _v1 = stencil.a;
@@ -10184,7 +10470,7 @@ var $author$project$Main$myShapes = function (model) {
 							_Utils_Tuple2(-70, -60),
 							A2(
 								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 133, 182),
+								A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
 								A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 40, 10, 6))),
 							A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
@@ -10218,7 +10504,7 @@ var $author$project$Main$myShapes = function (model) {
 							_Utils_Tuple2(20, -60),
 							A2(
 								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
-								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 150, 133, 182),
+								A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 150, 133, 182, 0.5),
 								A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 70, 10, 6))),
 							A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$move,
@@ -10242,46 +10528,19 @@ var $author$project$Main$myShapes = function (model) {
 						7,
 						$MacCASOutreach$graphicsvg$GraphicSVG$text(model.hint))))
 			]),
-		function () {
-			var _v0 = model.state;
-			if (_v0.$ === 'Ex1') {
-				return _List_fromArray(
-					[
-						A2(
-						$author$project$Main$display,
-						model.highlight,
-						_Utils_Tuple3(model.expr, $MacCASOutreach$graphicsvg$GraphicSVG$white, $elm$core$Basics$identity)).a
-					]);
-			} else {
-				return (_Utils_eq(model.expr, $author$project$Main$example2) && _Utils_eq(
-					model.highlight,
-					$author$project$Main$CSubtRight($author$project$Main$CExp))) ? _List_fromArray(
-					[
-						A2(
-						$author$project$Main$display,
-						model.highlight,
-						_Utils_Tuple3($author$project$Main$example22, $MacCASOutreach$graphicsvg$GraphicSVG$green, $elm$core$Basics$identity)).a
-					]) : ((_Utils_eq(model.expr, $author$project$Main$example22) && _Utils_eq(model.highlight, $author$project$Main$CSubt)) ? _List_fromArray(
-					[
-						A2(
-						$author$project$Main$display,
-						model.highlight,
-						_Utils_Tuple3($author$project$Main$example23, $MacCASOutreach$graphicsvg$GraphicSVG$green, $elm$core$Basics$identity)).a
-					]) : ((_Utils_eq(model.expr, $author$project$Main$example2) && _Utils_eq(model.highlight, $author$project$Main$CSubt)) ? _List_fromArray(
-					[
-						A2(
-						$author$project$Main$display,
-						model.highlight,
-						_Utils_Tuple3(model.expr, $MacCASOutreach$graphicsvg$GraphicSVG$red, $elm$core$Basics$identity)).a
-					]) : _List_fromArray(
-					[
-						A2(
-						$author$project$Main$display,
-						model.highlight,
-						_Utils_Tuple3(model.expr, $MacCASOutreach$graphicsvg$GraphicSVG$white, $elm$core$Basics$identity)).a
-					])));
-			}
-		}());
+		(!_Utils_eq(model.highlight, $author$project$Main$CNotHere)) ? _List_fromArray(
+			[
+				A2(
+				$author$project$Main$display,
+				model.highlight,
+				_Utils_Tuple3(model.expr, $MacCASOutreach$graphicsvg$GraphicSVG$red, $elm$core$Basics$identity)).a
+			]) : _List_fromArray(
+			[
+				A2(
+				$author$project$Main$display,
+				model.highlight,
+				_Utils_Tuple3(model.expr, $MacCASOutreach$graphicsvg$GraphicSVG$white, $elm$core$Basics$identity)).a
+			]));
 };
 var $author$project$Main$view = function (model) {
 	return A3(
