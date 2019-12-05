@@ -40,9 +40,9 @@ Success!
 
 myShapes model =
   [ titleText |> move (-20, -20)
-  , text "Which operation goes first?" |> txtFmt |> centered |> filled black |> move (0, 20)
+  , text "Click the correct order of operations below:" |> txtFmt |> centered |> filled black |> move (0, 13)
   , exampleBox |> move (-20, 0)
-  , expressionOptions model|> move (60, 10)
+  , expressionOptions model|> move (70, 0)
   --, Debug.toString model.highlight |> text |> size 3 |> selectable |> filled black |> move (0,-30)
   , group [
     roundedRect 40 10 6 |> filled (rgba 150 133 182 0.5) |> move ( -70, -60 )
@@ -534,8 +534,14 @@ titleText =
         , text "E" |> serif |> size 15 |> filled pink |> move ( -16, 60 )
         , text "D" |> serif |> size 15 |> filled purple |> move ( 0, 60 )
         , text "M" |> serif |> size 15 |> filled blue |> move ( 16, 60 )
-        , text "A" |> serif |> size 15 |> filled orange |> move ( 16*2, 60 )
+        , text "A" |> serif |> size 15 |> filled orange |> move ( 16*2 + 1, 60 )
         , text "S" |> serif |> size 15 |> filled yellow |> move ( 16*3, 60 )
+        , text "brackets" |> serif |> size 3 |> filled black |> move ( -16*2 , 55 )
+        , text "exponents" |> serif |> size 3 |> filled pink |> move ( -16, 55 )
+        , text "division" |> serif |> size 3 |> filled purple |> move ( 0, 55 )
+        , text "multiplication" |> serif |> size 3 |> filled blue |> move ( 14, 55 )
+        , text "addition" |> serif |> size 3 |> filled orange |> move ( 16*2 + 1, 55 )
+        , text "subtraction" |> serif |> size 3 |> filled yellow |> move ( 16*3, 55 )
         ]
 
 exampleBox =
@@ -564,7 +570,7 @@ expressionOptions model =
                         |> notifyTap (SetElement el)
                         |> notifyTap SetState
                         |> move ( 0, -4 )
-                        |> time1 model el 30 4
+                        |> time1 model el 25 4
                         |> move ( 0, y )
                 )
                 [ Constants, Decimals, Fractions, Variables]
@@ -584,7 +590,7 @@ elemString m elem =
 
 time1 model ss w h shape =
     if ss == model.element then
-        group [ rect w h |> filled (rgba 255 185 179 (0.6 + 0.4 * sin (5 * model.time - 1))) |> move (15, -3), shape ]
+        group [ rect w h |> filled (rgba 255 185 179 (0.6 + 0.4 * sin (5 * model.time - 1))) |> move (10, -3), shape ]
     else
         shape
 
