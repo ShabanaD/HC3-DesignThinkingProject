@@ -595,6 +595,7 @@ expressionOptions model =
         (List.map (\x -> -4 * Basics.toFloat x) (List.range 0 20))
         ]
 
+-- different options users can choose
 elemString m elem = 
     case elem of 
         Constants ->
@@ -606,9 +607,10 @@ elemString m elem =
         Variables ->
             "Variables"
 
+-- highlight box for options (Constants, Fractions, Decimals, etc)
 time1 model ss w h shape =
     if ss == model.element then
-        group [ rect w h |> filled (rgba 0 185 179 (0.6 + 0.4 * sin (5 * model.time - 1))) |> move (10, -3), shape ]
+        group [ rect w h |> filled (rgba 255 185 179 (0.6 + 0.4 * sin (5 * model.time - 1))) |> move (10, -3), shape ]
     else
         shape
 
