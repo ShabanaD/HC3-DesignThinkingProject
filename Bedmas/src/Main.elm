@@ -1,3 +1,21 @@
+{-
+Suhavi Sandhu 400025726
+Shalmi Patel 400023762
+Shabana Dhayananth 400025944
+
+Through this program we want to help students in grade 7 better understand how to simplify and solve mathematical 
+expressions by applying the rules of BEDMAS. The student can be familiar with the other math concepts they are learning 
+in class, but they are having trouble with understanding BEDMAS. 
+
+We designed the application with the focus of Normans Principles. The user receives different types of feedback, 
+with each click they do. If the user selects the correct the operation the equation simplifies, if the user selects 
+the incorrect operation then the equation is highlighted the color red.  The hint button also gives the user feedback 
+on the next step of the equation. The user can pick from the different equation options that are available, each option 
+is mapped to equations in the selected category. Through this the user can learn the concept of order of operations (BEDMAS).-}
+
+
+
+
 module Main exposing (..)
 
 import GraphicSVG exposing (..)
