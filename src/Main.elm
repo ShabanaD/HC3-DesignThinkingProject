@@ -62,12 +62,12 @@ myShapes model =
   , exampleBox |> move (-20, 0)
   , expressionOptions model|> move (70, 0)
   --, Debug.toString model.highlight |> text |> size 3 |> selectable |> filled black |> move (0,-30)
-  , group [
+  , group [ -- hint button, roundedRect and text grouped together
     roundedRect 40 10 6 |> filled (rgba 150 133 182 0.5) |> move ( -70, -60 )
     , text "Hint" |> size 7 |> filled black |> move (-75, -62)
     ] |> move (20, 20) |> notifyTap (GiveHint)
   , text (model.hint) |> size 6 |> filled black |> move (-45, -30)
-  , group [
+  , group [ -- new equation button, roundedrect and text grouped together
     roundedRect 70 10 6 |> filled model.btnColor |> move ( 20, -60 )
     , text "New Equation" |> size 7 |> filled black |> move (3, -62)
     ] |> move (20, 20) |> notifyTap (SwitchEx)
@@ -77,24 +77,10 @@ myShapes model =
   if (model.highlight /= CNotHere)
         then [ Tuple.first <| display model.highlight (model.expr, red, identity)]
         else [ Tuple.first <| display model.highlight (model.expr, white, identity)]
-  -- case model.state of
-  --     Ex1 ->
-  --          [ Tuple.first <| display model.highlight (model.expr, white, identity) ]
-  --     Ex2 -> 
-  --         if (model.expr == example2 && model.highlight == CSubtRight CExp)
-  --         then [Tuple.first <| display model.highlight (example22, green, identity)]
-  --         else if (model.expr == example22 && model.highlight == CSubt)
-  --         then [ Tuple.first <| display model.highlight (example23, green, identity)]
-  --         else if (model.expr == example2 && model.highlight == CSubt)
-  --         then [ Tuple.first <| display model.highlight (model.expr, red, identity)]
-  --         else [ Tuple.first <| display model.highlight (model.expr, white, identity)]
-  --     Ex3 ->
-  --       if (model.highlight /= CNotHere)
-  --       then [ Tuple.first <| display model.highlight (model.expr, red, identity)]
-  --       else [ Tuple.first <| display model.highlight (model.expr, white, identity)]
 
 type Expr = Const Float | Plus Expr Expr | Subt Expr Expr | Mult Expr Expr | Div Expr Expr | Exp Expr Expr | Var String -- tree for expresions
 
+-- builds a tree to show which part is highlighted and what part gets clicked on
 type Clickable = CConst
                | CPlus | CPlusLeft Clickable | CPlusRight Clickable
                | CSubt | CSubtLeft Clickable | CSubtRight Clickable
@@ -105,6 +91,7 @@ type Clickable = CConst
                | CNotHere
                | Hint
 
+-- equations 1-4 and their steps to simplify
 example1 = Mult (Subt (Const 8) (Const 5)) (Const 3)
 example12 = Mult (Const 3) (Const 3)
 example13 = Const 9
@@ -154,24 +141,28 @@ backlit width colour = roundedRect width 6 4 |> filled colour |> makeTransparent
 display : Clickable         -- breadcrumbs to element to highlight
         -> (Expr, Color, Clickable -> Clickable)  -- (expr,highlight colour, breadcrumbs so far)
         -> (Shape Msg,Float) -- return shape, and width of shape
+-- we check the expresion type using cases
 display highlight (expr0, col, mkClickable) =
   case expr0 of
       Const float -> -- probably assume positive
         let
+            -- check how many digit spaces it will take (max is 4)
+            -- the width is used later to display
             width = if float < 10 then charWidth
                 else if float < 100 then 2*charWidth
                      else if float < 1000 then 3*charWidth
                           else 4*charWidth
         in
             ( group <|
-              ( if highlight == CConst
-                then (::) (backlit width col)
+              ( if highlight == CConst -- 
+                then (::) (backlit width col) -- draws a rect based on the width calculated earlier and prepends it
                 else identity
               )
+                -- turns float into a string so we can display
                 [text (String.fromFloat float) |> txtFmt |> centered |> filled black ]
             , 1.1*width
             )
-
+      -- the plus operator, which takes 2 expressions and calls display on both the expressions
       Plus expr expr2 ->
         let
             (leftRecurse, rightRecurse)
@@ -197,17 +188,20 @@ display highlight (expr0, col, mkClickable) =
         in
           ( group ( hl ++
                 [
+                  -- 
                   text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0) 
                 , left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
                 , text "+" |> txtFmt |> centered |> filled black
+                -- since + operator is clickable, it has a circle behind it
+                -- in the notifytap, we make our CPlus clickable
                 , circle 3 |> filled (rgba 245 121 0 0.3) |> move (0,1) |> notifyTap (Tap <| mkClickable CPlus)
                 , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
                 , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
-                -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled orange
                 ]
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
           , 1*charWidth + leftWidth + rightWidth )
 
+      -- works similarly to CPlus
       Subt expr expr2 -> 
         let
             (leftRecurse, rightRecurse)
@@ -239,11 +233,11 @@ display highlight (expr0, col, mkClickable) =
                 , circle 3 |> filled (rgba 237 212 0 0.3) |> move (0,1) |> notifyTap (Tap <| mkClickable CSubt)
                 , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
                 , text ")" |> txtFmt |> centered |> filled orange |> move (0.125*charWidth + rightWidth,0)
-                -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled orange
                 ]
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
           , 1*charWidth + leftWidth + rightWidth )
       
+      -- works similarly to CPlus
       Mult expr expr2 ->
         let
             (leftRecurse, rightRecurse)
@@ -268,13 +262,10 @@ display highlight (expr0, col, mkClickable) =
         in
           ( group ( hl ++
             [
-              -- text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
             left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
             , text "*" |> txtFmt |> centered |> filled black
             , circle 3 |> filled (rgba 52 101 164 0.3) |> move (0,1) |> notifyTap (Tap <| mkClickable CMult)
             , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
-            -- , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
-            -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
             ]
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
           , 1*charWidth + 0.8*leftWidth + 0.8*rightWidth )
@@ -314,6 +305,7 @@ display highlight (expr0, col, mkClickable) =
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
           , 1*charWidth + leftWidth + rightWidth )
 
+      -- exponent takes 2 expressions
       Exp expr expr2 ->
         let
             (leftRecurse, rightRecurse)
@@ -338,13 +330,10 @@ display highlight (expr0, col, mkClickable) =
         in
           ( group ( hl ++
             [
-              -- text "(" |> txtFmt |> centered |> filled black |> move (-0.125*charWidth - leftWidth, 0)
             left |> move (-0.5 * (0.25*charWidth + leftWidth),0)
             , text "^" |> txtFmt |> centered |> filled black
             , circle 3 |> filled (rgba 255 105 180 0.3) |> move (0,1) |> notifyTap (Tap <| mkClickable CExp)
             , right |> move (0.5 * (0.25*charWidth+rightWidth),0)
-            -- , text ")" |> txtFmt |> centered |> filled black |> move (0.125*charWidth + rightWidth,0)
-            -- debug , rect (1*charWidth + leftWidth + rightWidth) 1 |> filled red
             ]
             ) |> move ( 0.5 * (leftWidth - rightWidth), 0)
           , 1*charWidth + 0.8*leftWidth + 0.8*rightWidth )
@@ -384,7 +373,7 @@ update msg model =
                     case (model.highlight) of 
                         (CMultLeft CSubt) -> { model | time = t, expr = example12, simplify = Level1 }
                         otherwise -> { model | time = t}
-                (Ex1, Level1)  -> 
+                (Ex1, Level1)  -> -- when the user simplifies the equation completely, the screen highlights the 'Next Equation' button and says 'Good Job'
                     case (model.highlight) of 
                         (CMult) -> { model | time = t, expr = example13, simplify = Done, hint = "Good Job!", btnColor = (rgba 150 133 182 1)}
                         otherwise -> { model | time = t}
@@ -478,7 +467,7 @@ update msg model =
                 (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Decimals  }
                 (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Fractions }
                 (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Variables }
-        GiveHint ->
+        GiveHint -> -- gives hint beased on what step and what equation the user is on
           case (model.simplify) of
             (Level0) ->
               case (model.state) of
@@ -489,7 +478,6 @@ update msg model =
                 (ExD) -> {model | hint = "Look at the innermost brackets" }
                 (ExF) -> {model | hint = "What does the D in BEDMAS stand for?" }
                 (ExV) -> {model | hint = "In BEDMAS, the M goes before A" }
-                --otherwise -> { model | hint = ""}
             (Level1) -> 
               case (model.state) of
                 (Ex1) -> { model | hint = "What does the M in BEDMAS stand for?" }
@@ -516,7 +504,7 @@ update msg model =
                 (ExF) -> { model | hint = "What does the A in BEDMAS stand for?" }
                 otherwise -> { model | hint = "" }
             otherwise -> { model | hint = "" }
-        SwitchEx ->
+        SwitchEx -> -- switches to the next expression when user wants to try new problem
           case (model.state) of
             (Ex1) -> { model | state = Ex2, expr = example2, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
             (Ex2) -> { model | state = Ex4, expr = example4, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Constants }
