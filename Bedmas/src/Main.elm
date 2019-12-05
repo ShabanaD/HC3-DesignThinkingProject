@@ -106,10 +106,12 @@ example42 = Div (Const 24) (Subt (Const 8) (Const 4))
 example43 = Div (Const 24) (Const 4)
 example44 = Const 6
 
+-- equation including decimals
 exampleDec = Subt (Const 7.8) (Plus (Const 2.5) (Const 1.0))
 exampleDec2 = Subt (Const 7.8) (Const 3.5)
 exampleDec3 = Const 4.3
 
+-- equation including fractions
 exampleFrac = Plus (Subt (Div (Const 4) (Const 8)) (Div (Const 15) (Const 45))) (Div (Const 2) (Const 3))
 exampleFrac2 = Plus (Subt (Var " 1/2 ") (Div (Const 15) (Const 45))) (Div (Const 2) (Const 3))
 exampleFrac3 = Plus (Subt (Var " 1/2 ") (Var " 1/3 ")) (Div (Const 2) (Const 3))
@@ -117,11 +119,10 @@ exampleFrac4 = Plus (Subt (Var " 1/2 ") (Var " 1/3 ")) (Var " 2/3 ")
 exampleFrac5 = Plus (Var " 1/6") (Var " 2/3")
 exampleFrac6= Var "5/6"
 
+-- equation including variables
 exampleVar = Plus (Mult (Const 7) (Var "x")) (Var "y")
 exampleVar2 = Plus (Var "7x") (Var "y" )
 exampleVar3 = Var "7x + y"
-
---exampleNInt = Const 4
 
 -- text formatting
 txtFmt stencil = stencil |> size 5 |> fixedwidth
@@ -129,11 +130,11 @@ txtFmt stencil = stencil |> size 5 |> fixedwidth
 -- width of one character (this is a guess, because it depends on browser)
 charWidth = 9
 
--- highlight shape
+-- shape of highlight for wrong answer
 backlit width colour = roundedRect width 6 4 |> filled colour |> makeTransparent 0.5 |> move (0,1)
 
 display : Clickable         -- breadcrumbs to element to highlight
-        -> (Expr, Color, Clickable -> Clickable)  -- (expr,breadcrumbs so far)
+        -> (Expr, Color, Clickable -> Clickable)  -- (expr,highlight colour, breadcrumbs so far)
         -> (Shape Msg,Float) -- return shape, and width of shape
 display highlight (expr0, col, mkClickable) =
   case expr0 of
@@ -341,10 +342,11 @@ display highlight (expr0, col, mkClickable) =
 type Msg = Tick Float GetKeyState
          | Tap Clickable
          | SetElement Element
-         | SetState
+         | SetState -- change the equation based on choses expression option
          | GiveHint
-         | SwitchEx
+         | SwitchEx -- switch between equations containing constants
 
+-- state depends on example being worked on
 type State = Ex1
            | Ex2
            | Ex3
@@ -352,15 +354,14 @@ type State = Ex1
            | ExD
            | ExF
            | ExV
-           --| ExNI
 
+-- levels of reduction equation needs to be complete
 type Simplify = Level0 | Level1 | Level2 | Level3 | Level4 | Done
 
 update msg model =
     case msg of
         Tick t _ ->
             case (model.state, model.simplify) of
-                -- Ex1  -> { model | time = t }
                 (Ex1, Level0)  -> 
                     case (model.highlight) of 
                         (CMultLeft CSubt) -> { model | time = t, expr = example12, simplify = Level1 }
@@ -459,8 +460,6 @@ update msg model =
                 (Decimals) -> { model | state = ExD, expr = exampleDec, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Decimals  }
                 (Fractions) -> { model | state = ExF, expr = exampleFrac, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Fractions }
                 (Variables) -> { model | state = ExV, expr = exampleVar, simplify = Level0, hint="", btnColor = (rgba 150 133 182 0.5), element = Variables }
-                --(Integers) -> { model | element = element, state = ExNI }
-                otherwise -> { model | state = Ex1 }
         GiveHint ->
           case (model.simplify) of
             (Level0) ->
@@ -482,7 +481,6 @@ update msg model =
                 (ExD) -> {model | hint = "What does the S in BEDMAS stand for?" }
                 (ExF) -> {model | hint = "What does the D in BEDMAS stand for?" }
                 (ExV) -> {model | hint = "What does the A in BEDMAS stand for?" }
-                --(ExNI) -> {model | hint = "What does the S in BEDMAS stand for?" }
             (Level2) -> 
               case (model.state) of
                 (Ex3) -> { model | hint = "What does the S in BEDMAS stand for?" }
@@ -527,7 +525,7 @@ init = { time = 0
        , highlight = CNotHere
        , element = Constants
        , hint = ""
-       , btnColor = (rgba 150 133 182 0.5)
+       , btnColor = (rgba 150 133 182 0.5) -- default colour of buttons
        }
 
 titleText = 
@@ -583,8 +581,6 @@ elemString m elem =
             "Fractions"
         Variables ->
             "Variables"
-        Integers ->
-            "Integers"
 
 time1 model ss w h shape =
     if ss == model.element then
@@ -592,13 +588,9 @@ time1 model ss w h shape =
     else
         shape
 
+-- possible elements that can be present in equations
 type Element 
     =  Constants
     | Decimals
     | Fractions
     | Variables
-    | Integers
-
-{- onOver : (Event -> msg) -> Attribute msg
-onOver = 42
--}
