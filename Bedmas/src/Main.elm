@@ -608,7 +608,7 @@ elemString m elem =
 
 time1 model ss w h shape =
     if ss == model.element then
-        group [ rect w h |> filled (rgba 255 185 179 (0.6 + 0.4 * sin (5 * model.time - 1))) |> move (10, -3), shape ]
+        group [ rect w h |> filled (rgba 0 185 179 (0.6 + 0.4 * sin (5 * model.time - 1))) |> move (10, -3), shape ]
     else
         shape
 
