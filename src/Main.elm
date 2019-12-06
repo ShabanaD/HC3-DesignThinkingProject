@@ -7,11 +7,24 @@ Through this program we want to help students in grade 7 better understand how t
 expressions by applying the rules of BEDMAS. The student can be familiar with the other math concepts they are learning 
 in class, but they are having trouble with understanding BEDMAS. 
 
-We designed the application with the focus of Normans Principles. The user receives different types of feedback, 
-with each click they do. If the user selects the correct the operation the equation simplifies, if the user selects 
-the incorrect operation then the equation is highlighted the color red.  The hint button also gives the user feedback 
-on the next step of the equation. The user can pick from the different equation options that are available, each option 
-is mapped to equations in the selected category. Through this the user can learn the concept of order of operations (BEDMAS).-}
+Feedback 
+- Flashing bar when the user is in a current mode under options 
+- Equation is highlighted red when the user clicks on the incorrect order of operation 
+- Equation is simplified the user clicks on the correct order of operation 
+- Once the user completes the equation, ‘good job’ is prompted for the user
+Discoverability
+- The instructions above the equation hints that the operations within the equation are buttons that can be clicked
+- The new Equation button give the user a new equation in their current option mode
+Signifier
+- The labels on the “Hint” and “New Equation button indicate that the user can click them
+- The list of ‘Options’ on the right indicate that different modes can be selected
+- New equation button turns are darker shade of purple when the user completes the equation to prompt them for the next equation
+Mapping 
+- The colors on the titles are mapped to the colors in the operations in the equation to make it easier for the user to understand.
+- Each option mode is mapped to equation which are related to the category
+Constraints 
+- There are a maximum of 4 different operations in an equation 
+-}
 
 
 
